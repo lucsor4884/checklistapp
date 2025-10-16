@@ -8,12 +8,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -52,7 +48,7 @@
                     <input type="password" id="login-password" required class="mt-1 w-full p-3 pr-10 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                     <div id="toggle-password" class="absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-gray-400 cursor-pointer">
                         <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                        <svg id="eye-slashed-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 .847 0 1.673.126 2.463.359m-2.964 12.016A9.95 9.95 0 0012 13a3 3 0 100-6 9.95 9.95 0 00-5.012 1.488M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" /></svg>
+                        <svg id="eye-slashed-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064 7 9.542-7 .847 0 1.673.126 2.463.359m-2.964 12.016A9.95 9.95 0 0012 13a3 3 0 100-6 9.95 9.95 0 00-5.012 1.488M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" /></svg>
                     </div>
                 </div>
                 <button type="submit" id="login-button" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105">Entrar</button>
@@ -96,7 +92,10 @@
                 <div id="checklist-screen" class="hidden space-y-5">
                     <h2 id="checklist-title" class="text-xl font-semibold text-gray-200 border-b border-gray-700 pb-2">Questionário</h2>
                     <div id="questions-container" class="space-y-4"></div>
-                    <button id="save-button" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700" disabled>Salvar Avaliação</button>
+                    <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
+                        <button id="pause-button" class="w-full bg-yellow-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-yellow-700" disabled>Pausar e Salvar</button>
+                        <button id="save-button" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700" disabled>Salvar Avaliação</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -120,7 +119,6 @@
                  <div id="results-placeholder" class="text-center py-8"><p class="text-gray-500">Selecione um shopping para ver os resultados.</p></div>
              </div>
         </div>
-
         <div id="page-profile" class="hidden w-full">
             <div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700 text-center">
                  <h1 class="text-2xl md:text-3xl font-bold text-gray-100">Perfil do Avaliador</h1>
@@ -131,10 +129,8 @@
                  </div>
             </div>
         </div>
-        
         <div id="page-placeholder1" class="hidden w-full"><div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700 text-center"><h1 class="text-2xl md:text-3xl font-bold text-gray-100">Página em Construção</h1></div></div>
         <div id="page-placeholder2" class="hidden w-full"><div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700 text-center"><h1 class="text-2xl md:text-3xl font-bold text-gray-100">Página em Construção</h1></div></div>
-
         <nav class="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700">
             <div class="grid grid-cols-5 w-full max-w-2xl mx-auto items-center text-center h-20">
                 <button id="nav-home" class="nav-active flex flex-col items-center justify-center h-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg><span class="text-xs mt-1">Início</span></button>
@@ -144,6 +140,7 @@
                 <button id="nav-placeholder2" class="nav-inactive flex flex-col items-center justify-center h-full" disabled><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg><span class="text-xs mt-1">Ajustes</span></button>
             </div>
         </nav>
+
     </div>
 
     <script type="module">
@@ -151,11 +148,8 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // --- DADOS DE CONFIGURAÇÃO ---
-        // ALTERAÇÃO: Os dados de shoppings e lojas foram REMOVIDOS daqui. Eles virão do Firestore.
         
-        // As perguntas podem permanecer aqui por enquanto, ou também podem ser movidas para o Firestore no futuro.
+        // As perguntas (sem alterações)
         const questions = [
             { id: 'q1', text: 'Os funcionários da loja participaram do último treinamento semestral realizado pela área de segurança patrimonial do shopping?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } },
             { id: 'q2', text: 'A loja dispõe de agentes de segurança em horário de funcionamento? (Aplica-se a joalherias com produtos de altíssimo valor agregado)', risks: { 'Joalheria': 5, 'Bancos e Caixas Eletrônicos': 5 } },
@@ -193,6 +187,7 @@
 
         // --- INICIALIZAÇÃO DO FIREBASE ---
         const firebaseConfig = {
+            // !!! COLOQUE SUAS CREDENCIAIS AQUI !!!
             apiKey: "AIzaSyA5NplfNbnLx9tXEbzMqxCPCKL9Cp6NpF8",
   authDomain: "checklist-lojas-app.firebaseapp.com",
   projectId: "checklist-lojas-app",
@@ -202,23 +197,15 @@
   measurementId: "G-LY5J0XW1FV"
         };
         
+        // ... (resto do script, inicialização, elementos do DOM) ...
         let app, db, auth, currentUser = null, riskChart = null;
+        let allMalls = [], currentMallStores = [];
 
-        // ALTERAÇÃO: Variáveis para guardar os dados vindos do Firebase
-        let allMalls = [];
-        let currentMallStores = [];
-
-        try {
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
-        } catch (error) {
-            console.error("Erro ao inicializar Firebase:", error);
-            document.body.innerHTML = `<div class="p-4 text-center bg-red-900/50 text-red-300"><strong>Erro Crítico:</strong> Não foi possível inicializar a conexão com o Firebase. Detalhes: ${error.message}</div>`;
-        }
+        try { app = initializeApp(firebaseConfig); db = getFirestore(app); auth = getAuth(app); } 
+        catch (error) { console.error("Erro ao inicializar Firebase:", error); document.body.innerHTML = `<div class="p-4 text-center bg-red-900/50 text-red-300"><strong>Erro Crítico:</strong> Não foi possível inicializar a conexão com o Firebase. Detalhes: ${error.message}</div>`; }
         
-        // --- ELEMENTOS DO DOM (Sem alterações) ---
         const loginPage = document.getElementById('login-page'), appContainer = document.getElementById('app-container'), loginForm = document.getElementById('login-form'), loginEmail = document.getElementById('login-email'), loginPassword = document.getElementById('login-password'), loginButton = document.getElementById('login-button'), loginError = document.getElementById('login-error'), logoutButton = document.getElementById('logout-button'), profileUserEmail = document.getElementById('profile-user-email'), togglePassword = document.getElementById('toggle-password'), eyeIcon = document.getElementById('eye-icon'), eyeSlashedIcon = document.getElementById('eye-slashed-icon'), mallSelect = document.getElementById('mall-select'), branchSelect = document.getElementById('branch-select'), storeSelect = document.getElementById('store-select'), selectionScreen = document.getElementById('selection-screen'), checklistScreen = document.getElementById('checklist-screen'), checklistTitle = document.getElementById('checklist-title'), questionsContainer = document.getElementById('questions-container'), saveButton = document.getElementById('save-button'), statusMessage = document.getElementById('status-message'), resultScreen = document.getElementById('result-screen'), newEvaluationButton = document.getElementById('new-evaluation-button'), pageHome = document.getElementById('page-home'), pageResults = document.getElementById('page-results'), pageProfile = document.getElementById('page-profile'), pagePlaceholder1 = document.getElementById('page-placeholder1'), pagePlaceholder2 = document.getElementById('page-placeholder2'), navHome = document.getElementById('nav-home'), navResults = document.getElementById('nav-results'), navProfile = document.getElementById('nav-profile'), navPlaceholder1 = document.getElementById('nav-placeholder1'), navPlaceholder2 = document.getElementById('nav-placeholder2'), resultsMallSelect = document.getElementById('results-mall-select'), resultsContent = document.getElementById('results-content'), resultsPlaceholder = document.getElementById('results-placeholder'), tableContainer = document.getElementById('table-container');
+        const pauseButton = document.getElementById('pause-button'); // --- NOVA FUNCIONALIDADE ---
 
         let currentAnswers = {}, relevantQuestions = [];
 
@@ -231,44 +218,29 @@
                     appContainer.classList.remove('hidden');
                     appContainer.classList.add('fade-in');
                     profileUserEmail.textContent = user.email;
-                    iniciarAplicativo(); // ALTERAÇÃO: Chama a nova função de inicialização
+                    iniciarAplicativo(); 
                 } else {
                     currentUser = null;
                     loginPage.classList.remove('hidden');
                     appContainer.classList.add('hidden');
                 }
             });
-            // ... (Restante do código de login/logout/toggle password sem alterações) ...
-            loginForm.addEventListener('submit', async(e) => { e.preventDefault(); loginButton.disabled = true; loginButton.textContent = 'Entrando...'; loginError.classList.add('hidden'); try { await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value); } catch (error) { console.error("Firebase Login Error:", error.code, error.message); let errorMessage = "Ocorreu um erro desconhecido. Tente novamente."; switch (error.code) { case 'auth/user-not-found': case 'auth/wrong-password': case 'auth/invalid-credential': errorMessage = "Email ou senha inválidos. Verifique os dados."; break; case 'auth/network-request-failed': errorMessage = "Erro de rede. Verifique sua conexão com a internet."; break; case 'auth/operation-not-allowed': errorMessage = "Login por E-mail/senha não está ativo no Firebase."; break; case 'auth/invalid-api-key': case 'auth/internal-error': errorMessage = "Erro de configuração do app. Contate o suporte."; break; } loginError.textContent = errorMessage; loginError.classList.remove('hidden'); } finally { loginButton.disabled = false; loginButton.textContent = 'Entrar'; } });
+            loginForm.addEventListener('submit', async(e) => { e.preventDefault(); loginButton.disabled = true; loginButton.textContent = 'Entrando...'; loginError.classList.add('hidden'); try { await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value); } catch (error) { console.error("Firebase Login Error:", error.code, error.message); let errorMessage = "Ocorreu um erro desconhecido. Tente novamente."; switch (error.code) { case 'auth/user-not-found': case 'auth/wrong-password': case 'auth/invalid-credential': errorMessage = "Email ou senha inválidos. Verifique os dados."; break; case 'auth/network-request-failed': errorMessage = "Erro de rede. Verifique sua conexão com a internet."; break; default: errorMessage = "Erro de configuração ou de rede. Contate o suporte."; break; } loginError.textContent = errorMessage; loginError.classList.remove('hidden'); } finally { loginButton.disabled = false; loginButton.textContent = 'Entrar'; } });
             logoutButton.addEventListener('click', async () => { try { await signOut(auth); } catch (error) { console.error("Erro ao sair:", error); }});
             togglePassword.addEventListener('click', () => { const type = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password'; loginPassword.setAttribute('type', type); eyeIcon.classList.toggle('hidden'); eyeSlashedIcon.classList.toggle('hidden'); });
         }
 
-        // --- FUNÇÕES DE NAVEGAÇÃO E APP ---
-        // ALTERAÇÃO: Nova função para buscar os shoppings do Firestore
+        // --- FUNÇÕES DE BUSCA DE DADOS ---
         async function fetchMallsFromDB() {
-            try {
-                const querySnapshot = await getDocs(collection(db, "malls"));
-                const mallsList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                return mallsList.sort((a, b) => a.name.localeCompare(b.name));
-            } catch (error) {
-                console.error("Erro ao buscar shoppings: ", error);
-                return []; // Retorna array vazio em caso de erro
-            }
+            try { const querySnapshot = await getDocs(collection(db, "malls")); const mallsList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); return mallsList.sort((a, b) => a.name.localeCompare(b.name)); } 
+            catch (error) { console.error("Erro ao buscar shoppings: ", error); return []; }
         }
-
-        // ALTERAÇÃO: Nova função para buscar as lojas de um shopping específico
         async function fetchStoresFromDB(mallId) {
-            try {
-                const q = query(collection(db, "stores"), where("mallId", "==", mallId));
-                const querySnapshot = await getDocs(q);
-                return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            } catch (error) {
-                console.error("Erro ao buscar lojas: ", error);
-                return [];
-            }
+            try { const q = query(collection(db, "stores"), where("mallId", "==", mallId)); const querySnapshot = await getDocs(q); return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); } 
+            catch (error) { console.error("Erro ao buscar lojas: ", error); return []; }
         }
         
+        // --- FUNÇÕES DE NAVEGAÇÃO E APP ---
         function navigateTo(pageName) {
             [pageHome, pageResults, pageProfile, pagePlaceholder1, pagePlaceholder2].forEach(p => p.classList.add('hidden'));
             [navHome, navResults, navPlaceholder1, navPlaceholder2].forEach(b => { b.classList.remove('nav-active'); b.classList.add('nav-inactive'); });
@@ -278,8 +250,6 @@
                 case 'home': targetPage = pageHome; targetNav = navHome; break;
                 case 'results': targetPage = pageResults; targetNav = navResults; populateResultsFilter(); break;
                 case 'profile': targetPage = pageProfile; targetNav = navProfile; break;
-                case 'placeholder1': targetPage = pagePlaceholder1; targetNav = navPlaceholder1; break;
-                case 'placeholder2': targetPage = pagePlaceholder2; targetNav = navPlaceholder2; break;
                 default: targetPage = pageHome; targetNav = navHome;
             }
             targetPage.classList.remove('hidden');
@@ -289,42 +259,29 @@
             }
         }
         
-        // ALTERAÇÃO: A função agora usa a variável 'allMalls'
         function populateMalls() {
             mallSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Shopping --</option>';
-            allMalls.forEach(mall => {
-                const option = new Option(mall.name, mall.id);
-                mallSelect.add(option);
-            });
+            allMalls.forEach(mall => mallSelect.add(new Option(mall.name, mall.id)));
         }
         
-        // ALTERAÇÃO: A função agora usa a variável 'allMalls'
         function populateResultsFilter() {
             resultsMallSelect.innerHTML = '<option value="" disabled selected>-- Selecione um Shopping para analisar --</option>';
-            allMalls.forEach(mall => {
-                const option = new Option(mall.name, mall.id);
-                resultsMallSelect.add(option);
-            });
+            allMalls.forEach(mall => resultsMallSelect.add(new Option(mall.name, mall.id)));
             resultsContent.classList.add('hidden');
             resultsPlaceholder.classList.remove('hidden');
         }
 
-        // ALTERAÇÃO: A lógica agora deriva os ramos das lojas buscadas
         function populateBranches() {
             branchSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Tipo --</option>';
             storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>';
             branchSelect.disabled = true;
             storeSelect.disabled = true;
-
             const uniqueBranches = [...new Set(currentMallStores.map(store => store.branchName))];
-            uniqueBranches.sort().forEach(branch => {
-                const option = new Option(branch, branch);
-                branchSelect.add(option);
-            });
+            uniqueBranches.sort().forEach(branch => branchSelect.add(new Option(branch, branch)));
             branchSelect.disabled = false;
         }
 
-        // ALTERAÇÃO: A lógica foi atualizada para lidar com dados do Firestore
+        // --- NOVA FUNCIONALIDADE --- : Lógica para status "Concluído" e "Em Andamento"
         async function populateStores(branch) {
             storeSelect.innerHTML = '<option value="" disabled selected>-- Carregando Lojas... --</option>';
             storeSelect.disabled = true;
@@ -332,38 +289,46 @@
 
             const now = new Date();
             const monthYear = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-            let completedStoreIds = [];
+            const evaluationsStatus = {};
             
             try {
-                const evaluationsRef = collection(db, 'evaluations');
-                const q = query(evaluationsRef, where('mallId', '==', mallSelect.value), where('monthYear', '==', monthYear));
+                const q = query(collection(db, 'evaluations'), where('mallId', '==', mallSelect.value), where('monthYear', '==', monthYear));
                 const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => completedStoreIds.push(doc.data().storeId));
+                querySnapshot.forEach((doc) => {
+                    evaluationsStatus[doc.data().storeId] = doc.data().status;
+                });
             } catch (error) {
-                console.error("Erro ao buscar avaliações concluídas:", error);
+                console.error("Erro ao buscar status das avaliações:", error);
             }
 
             storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>';
             const filteredStores = currentMallStores.filter(store => store.branchName === branch);
             filteredStores.sort((a,b) => a.name.localeCompare(b.name)).forEach(store => {
-                const isCompleted = completedStoreIds.includes(store.id);
-                const option = new Option(
-                    `${store.name} ${isCompleted ? '(✓ Concluído)' : ''}`,
-                    store.id
-                );
-                if (isCompleted) option.disabled = true;
+                const status = evaluationsStatus[store.id];
+                let storeName = store.name;
+                let isDisabled = false;
+
+                if (status === 'completed') {
+                    storeName += ' (✓ Concluído)';
+                    isDisabled = true;
+                } else if (status === 'in_progress') {
+                    storeName += ' (⏸️ Em Andamento)';
+                }
+                
+                const option = new Option(storeName, store.id);
+                option.disabled = isDisabled;
                 storeSelect.add(option);
             });
             storeSelect.disabled = false;
         }
 
+        // --- NOVA FUNCIONALIDADE --- : Lógica para carregar avaliações pausadas
         async function handleStoreSelection() {
             const storeId = storeSelect.value;
             checklistScreen.classList.add('hidden');
             resultScreen.classList.add('hidden');
             if (!storeId || !db) return;
 
-            // ALTERAÇÃO: Busca a loja selecionada do array 'currentMallStores'
             const selectedStore = currentMallStores.find(s => s.id === storeId);
             if (!selectedStore) return;
 
@@ -372,28 +337,41 @@
             const evaluationId = `${storeId}_${monthYear}`;
             
             displayStatusMessage('Verificando...', 'loading', true);
+
             try {
                 const docRef = doc(db, 'evaluations', evaluationId);
                 const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    displayStatusMessage('Esta loja já foi avaliada este mês.', 'info', true);
+
+                relevantQuestions = questions.filter(q => q.risks[selectedStore.branchName] !== undefined);
+                resultScreen.classList.add('hidden');
+                statusMessage.classList.add('hidden');
+
+                if (docSnap.exists() && docSnap.data().status === 'in_progress') {
+                    // Carrega o checklist com as respostas salvas
+                    renderChecklist(selectedStore, docSnap.data().answers);
                 } else {
-                    relevantQuestions = questions.filter(q => q.risks[selectedStore.branchName] !== undefined);
-                    resultScreen.classList.add('hidden');
-                    statusMessage.classList.add('hidden');
+                    // Inicia um checklist novo
                     renderChecklist(selectedStore);
                 }
             } catch (error) {
-                console.error("Erro ao verificar:", error);
+                console.error("Erro ao verificar avaliação:", error);
                 displayStatusMessage('Erro ao consultar o banco de dados.', 'error', true);
             }
         }
         
-        function renderChecklist(selectedStore) {
+        // --- NOVA FUNCIONALIDADE --- : Parâmetro para respostas salvas
+        function renderChecklist(selectedStore, savedAnswers = []) {
             questionsContainer.innerHTML = '';
             currentAnswers = {};
             saveButton.disabled = true;
+            pauseButton.disabled = true;
             checklistTitle.textContent = `Questionário: ${selectedStore.name}`;
+
+            // Transforma o array de respostas salvas em um mapa para acesso rápido
+            const savedAnswersMap = savedAnswers.reduce((map, ans) => {
+                map[ans.questionId] = ans.answer;
+                return map;
+            }, {});
 
             relevantQuestions.forEach(q => {
                 const questionEl = document.createElement('div');
@@ -401,12 +379,30 @@
                 const riskValue = q.risks[selectedStore.branchName];
                 questionEl.innerHTML = `<p class="font-medium text-gray-200">${q.text}</p><div class="flex items-center space-x-3 mt-3"><button data-question-id="${q.id}" data-answer="SIM" class="btn-inactive flex-1 py-2 px-4 border rounded-md">SIM</button><button data-question-id="${q.id}" data-answer="NÃO" class="btn-inactive flex-1 py-2 px-4 border rounded-md">NÃO</button></div><div id="risk-${q.id}" class="hidden mt-2 p-2 bg-red-900/50 text-red-300 font-semibold rounded-md text-sm">Risco: ${riskValue}</div>`;
                 questionsContainer.appendChild(questionEl);
+
+                // Se houver resposta salva, preenche o formulário
+                const savedAnswer = savedAnswersMap[q.id];
+                if (savedAnswer) {
+                    currentAnswers[q.id] = savedAnswer;
+                    const button = questionEl.querySelector(`button[data-answer="${savedAnswer}"]`);
+                    button.classList.add('btn-active');
+                    button.classList.remove('btn-inactive');
+                    if (savedAnswer === 'NÃO') {
+                        questionEl.querySelector(`#risk-${q.id}`).classList.remove('hidden');
+                    }
+                }
             });
             
+            // Re-avalia o estado dos botões após carregar as respostas
+            const answeredCount = Object.keys(currentAnswers).length;
+            pauseButton.disabled = answeredCount === 0;
+            saveButton.disabled = answeredCount !== relevantQuestions.length;
+
             checklistScreen.classList.remove('hidden');
             checklistScreen.classList.add('fade-in');
         }
 
+        // --- NOVA FUNCIONALIDADE --- : Ativa o botão de pausar
         function handleAnswerSelection(event) {
             const button = event.target.closest('button');
             if (!button || !button.dataset.questionId) return;
@@ -417,13 +413,21 @@
                 btn.classList.toggle('btn-inactive', btn.dataset.answer !== answer);
             });
             document.getElementById(`risk-${questionId}`).classList.toggle('hidden', answer !== 'NÃO');
-            saveButton.disabled = Object.keys(currentAnswers).length !== relevantQuestions.length;
+            
+            const answeredCount = Object.keys(currentAnswers).length;
+            pauseButton.disabled = answeredCount === 0;
+            saveButton.disabled = answeredCount !== relevantQuestions.length;
         }
         
-        async function saveEvaluation() {
-            if (Object.keys(currentAnswers).length !== relevantQuestions.length) return;
-            saveButton.disabled = true;
-            saveButton.textContent = 'Salvando...';
+        // --- NOVA FUNCIONALIDADE --- : Função unificada para Salvar e Pausar
+        async function saveOrPauseEvaluation(status) {
+            if (Object.keys(currentAnswers).length === 0) return;
+
+            const finalButton = (status === 'completed') ? saveButton : pauseButton;
+            const originalText = finalButton.textContent;
+            finalButton.disabled = true;
+            finalButton.textContent = 'Salvando...';
+
             const storeId = storeSelect.value;
             const mallId = mallSelect.value;
             const selectedStore = currentMallStores.find(s => s.id === storeId);
@@ -433,30 +437,34 @@
             const monthYear = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
             const evaluationId = `${storeId}_${monthYear}`;
 
-            const answersData = relevantQuestions.map(q => ({
-                questionId: q.id,
-                questionText: q.text,
-                answer: currentAnswers[q.id],
-                risk: (currentAnswers[q.id] === 'NÃO') ? q.risks[selectedStore.branchName] : 0,
-            }));
+            const answersData = Object.entries(currentAnswers).map(([qId, ans]) => {
+                const question = questions.find(q => q.id === qId);
+                return {
+                    questionId: qId,
+                    questionText: question.text,
+                    answer: ans,
+                    risk: (ans === 'NÃO') ? question.risks[selectedStore.branchName] : 0,
+                }
+            });
 
             const evaluationData = {
+                status, // "completed" ou "in_progress"
                 evaluatorId: currentUser.uid,
                 evaluatorEmail: currentUser.email,
                 mallId,
                 mallName: allMalls.find(m => m.id === mallId).name,
                 storeId,
                 storeName: selectedStore.name,
-                storeBranch: selectedStore.branchName, // ALTERAÇÃO: campo 'branch' para 'branchName'
+                storeBranch: selectedStore.branchName,
                 monthYear,
                 createdAt: serverTimestamp(),
                 answers: answersData,
             };
 
             try {
-                const docRef = doc(db, 'evaluations', evaluationId);
-                await setDoc(docRef, evaluationData);
-                displayStatusMessage(`Avaliação salva com sucesso!`, 'success', false);
+                await setDoc(doc(db, 'evaluations', evaluationId), evaluationData, { merge: true });
+                const successMessage = status === 'completed' ? 'Avaliação salva com sucesso!' : 'Progresso salvo!';
+                displayStatusMessage(successMessage, 'success', false);
                 checklistScreen.classList.add('hidden');
                 selectionScreen.classList.add('hidden');
                 resultScreen.classList.remove('hidden');
@@ -464,14 +472,13 @@
                 console.error("Erro ao salvar:", error);
                 displayStatusMessage('Falha ao salvar. Tente novamente.', 'error', true);
             } finally {
-                saveButton.disabled = false;
-                saveButton.textContent = 'Salvar Avaliação';
+                finalButton.disabled = false;
+                finalButton.textContent = originalText;
             }
         }
         
-        // ... (Funções displayStatusMessage, loadResults, renderRiskChart, renderResultsTable sem alterações significativas) ...
         function displayStatusMessage(message, type, showOnTop) { statusMessage.textContent = message; statusMessage.className = 'text-center p-4 rounded-lg fade-in border'; if (showOnTop) { selectionScreen.classList.add('hidden'); checklistScreen.classList.add('hidden'); resultScreen.classList.remove('hidden'); newEvaluationButton.classList.toggle('hidden', type === 'loading'); } else { newEvaluationButton.classList.remove('hidden'); } switch (type) { case 'success': statusMessage.classList.add('bg-green-900/50', 'text-green-300', 'border-green-500/30'); break; case 'error': statusMessage.classList.add('bg-red-900/50', 'text-red-300', 'border-red-500/30'); break; case 'info': statusMessage.classList.add('bg-blue-900/50', 'text-blue-300', 'border-blue-500/30'); break; case 'loading': statusMessage.classList.add('bg-yellow-900/50', 'text-yellow-300', 'border-yellow-500/30'); break; } statusMessage.classList.remove('hidden'); }
-        async function loadResults(mallId) { if (!db || !mallId) { resultsContent.classList.add('hidden'); resultsPlaceholder.classList.remove('hidden'); resultsPlaceholder.textContent = 'Selecione um shopping para ver os resultados.'; return; } resultsPlaceholder.textContent = 'Carregando avaliações...'; resultsContent.classList.add('hidden'); resultsPlaceholder.classList.remove('hidden'); try { const evaluationsRef = collection(db, 'evaluations'); const q = query(evaluationsRef, where('mallId', '==', mallId)); const querySnapshot = await getDocs(q); if (querySnapshot.empty) { resultsPlaceholder.textContent = 'Nenhuma avaliação encontrada para este shopping.'; return; } let evaluations = querySnapshot.docs.map(doc => doc.data()); evaluations.sort((a, b) => { const timeA = a.createdAt ? a.createdAt.toMillis() : 0; const timeB = b.createdAt ? b.createdAt.toMillis() : 0; return timeB - timeA; }); renderRiskChart(evaluations); renderResultsTable(evaluations); resultsContent.classList.remove('hidden'); resultsPlaceholder.classList.add('hidden'); } catch(error) { console.error("Erro ao carregar resultados:", error); resultsPlaceholder.textContent = 'Erro ao carregar os dados. Tente novamente mais tarde.'; } }
+        async function loadResults(mallId) { if (!db || !mallId) { resultsContent.classList.add('hidden'); resultsPlaceholder.classList.remove('hidden'); resultsPlaceholder.textContent = 'Selecione um shopping para ver os resultados.'; return; } resultsPlaceholder.textContent = 'Carregando avaliações...'; resultsContent.classList.add('hidden'); resultsPlaceholder.classList.remove('hidden'); try { const q = query(collection(db, 'evaluations'), where('mallId', '==', mallId)); const querySnapshot = await getDocs(q); if (querySnapshot.empty) { resultsPlaceholder.textContent = 'Nenhuma avaliação encontrada para este shopping.'; return; } let evaluations = querySnapshot.docs.map(doc => doc.data()); evaluations.sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0)); renderRiskChart(evaluations); renderResultsTable(evaluations); resultsContent.classList.remove('hidden'); resultsPlaceholder.classList.add('hidden'); } catch(error) { console.error("Erro ao carregar resultados:", error); resultsPlaceholder.textContent = 'Erro ao carregar os dados. Tente novamente mais tarde.'; } }
         function renderRiskChart(evaluations) { const riskCounts = {}; evaluations.forEach(evalData => { const maxRisk = evalData.answers.reduce((max, ans) => Math.max(max, ans.risk), 0); riskCounts[maxRisk] = (riskCounts[maxRisk] || 0) + 1; }); const chartLabels = Object.keys(riskCounts).sort((a,b) => a-b).map(risk => `Risco ${risk}`); const chartData = Object.keys(riskCounts).sort((a,b) => a-b).map(risk => riskCounts[risk]); const ctx = document.getElementById('risk-chart').getContext('2d'); if (riskChart) { riskChart.destroy(); } riskChart = new Chart(ctx, { type: 'pie', data: { labels: chartLabels, datasets: [{ label: 'Lojas por Nível de Risco', data: chartData, backgroundColor: [ 'rgba(75, 192, 192, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(255, 206, 86, 0.7)', 'rgba(255, 159, 64, 0.7)', 'rgba(255, 99, 132, 0.7)', 'rgba(153, 102, 255, 0.7)' ], borderColor: '#1f2937', borderWidth: 2 }] }, options: { responsive: true, plugins: { legend: { position: 'top', labels: { color: '#d1d5db', font: { size: 14 } } }, title: { display: true, text: 'Distribuição de Lojas por Risco Máximo', color: '#e5e7eb', font: { size: 16 } } } } }); }
         function renderResultsTable(evaluations) { if (evaluations.length === 0) { tableContainer.innerHTML = ''; return; } let tableHTML = `<div class="overflow-x-auto"><table class="w-full text-sm text-left text-gray-400"><thead class="text-xs text-gray-300 uppercase bg-gray-700"><tr><th scope="col" class="px-6 py-3">Nome da Loja</th><th scope="col" class="px-6 py-3">Ramo</th><th scope="col" class="px-6 py-3 text-center">Risco Máximo</th></tr></thead><tbody>`; evaluations.forEach(evalData => { const maxRisk = evalData.answers.reduce((max, ans) => Math.max(max, ans.risk), 0); tableHTML += `<tr class="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"><th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">${evalData.storeName}</th><td class="px-6 py-4">${evalData.storeBranch}</td><td class="px-6 py-4 text-center font-bold ${maxRisk > 0 ? 'text-red-400' : 'text-green-400'}">${maxRisk}</td></tr>`; }); tableHTML += `</tbody></table></div>`; tableContainer.innerHTML = tableHTML; }
         
@@ -492,16 +499,14 @@
             navigateTo('home');
         }
         
-        // ALTERAÇÃO: Nova função de inicialização
         async function iniciarAplicativo() {
             allMalls = await fetchMallsFromDB();
-            resetApp(); // ResetApp agora é chamado depois de buscar os shoppings
-            populateResultsFilter(); // Popula o filtro de resultados também
+            resetApp(); 
+            populateResultsFilter(); 
         }
 
         // --- EVENT LISTENERS ---
         if(auth) {
-            // ALTERAÇÃO: Event listeners adaptados para a lógica assíncrona
             mallSelect.addEventListener('change', async () => {
                 const mallId = mallSelect.value;
                 branchSelect.innerHTML = '<option value="" disabled selected>-- Carregando Tipos... --</option>';
@@ -512,10 +517,13 @@
                 populateBranches();
             });
             branchSelect.addEventListener('change', () => populateStores(branchSelect.value));
-            
             storeSelect.addEventListener('change', handleStoreSelection);
             questionsContainer.addEventListener('click', handleAnswerSelection);
-            saveButton.addEventListener('click', saveEvaluation);
+            
+            // --- NOVA FUNCIONALIDADE --- : Event Listeners para Salvar e Pausar
+            saveButton.addEventListener('click', () => saveOrPauseEvaluation('completed'));
+            pauseButton.addEventListener('click', () => saveOrPauseEvaluation('in_progress'));
+
             newEvaluationButton.addEventListener('click', resetApp);
             navHome.addEventListener('click', () => navigateTo('home'));
             navResults.addEventListener('click', () => navigateTo('results'));
