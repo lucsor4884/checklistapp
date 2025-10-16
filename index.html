@@ -18,45 +18,24 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .nav-active {
-            color: #3b82f6; /* blue-500 */
-        }
-        .nav-inactive {
-            color: #9ca3af; /* gray-400 */
-        }
+        .nav-active { color: #3b82f6; }
+        .nav-inactive { color: #9ca3af; }
         button:disabled {
-            background-color: #4b5563 !important; /* gray-600 */
-            color: #9ca3af !important;      /* gray-400 */
+            background-color: #4b5563 !important;
+            color: #9ca3af !important;
             cursor: not-allowed;
             transform: none !important;
             opacity: 0.7;
         }
-        /* Estilo para placeholder de selects em modo escuro */
-        select:required:invalid {
-            color: #9ca3af; /* gray-400 */
-        }
-        option {
-            background-color: #374151;
-            color: white;
-        }
-        option:disabled {
-            color: #6b7280; /* gray-500 */
-        }
-        .btn-active {
-            background-color: #2563eb; /* blue-600 */
-            color: white;
-            border-color: #2563eb;
-        }
-        .btn-inactive {
-            background-color: #374151; /* gray-700 */
-            color: #d1d5db; /* gray-300 */
-            border-color: #4b5563; /* gray-600 */
-        }
+        select:required:invalid { color: #9ca3af; }
+        option { background-color: #374151; color: white; }
+        option:disabled { color: #6b7280; }
+        .btn-active { background-color: #2563eb; color: white; border-color: #2563eb; }
+        .btn-inactive { background-color: #374151; color: #d1d5db; border-color: #4b5563; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-200 flex items-center justify-center min-h-screen p-4">
 
-    <!-- Tela de Login -->
     <div id="login-page" class="w-full max-w-md mx-auto fade-in">
         <div class="bg-gray-800 rounded-xl shadow-lg p-8 space-y-6 border border-gray-700">
             <div class="text-center">
@@ -72,41 +51,29 @@
                     <label for="login-password" class="block text-sm font-medium text-gray-300">Senha:</label>
                     <input type="password" id="login-password" required class="mt-1 w-full p-3 pr-10 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                     <div id="toggle-password" class="absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-gray-400 cursor-pointer">
-                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                        <svg id="eye-slashed-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 .847 0 1.673.126 2.463.359m-2.964 12.016A9.95 9.95 0 0012 13a3 3 0 100-6 9.95 9.95 0 00-5.012 1.488M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" />
-                        </svg>
+                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                        <svg id="eye-slashed-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 .847 0 1.673.126 2.463.359m-2.964 12.016A9.95 9.95 0 0012 13a3 3 0 100-6 9.95 9.95 0 00-5.012 1.488M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" /></svg>
                     </div>
                 </div>
-                <button type="submit" id="login-button" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105">
-                    Entrar
-                </button>
+                <button type="submit" id="login-button" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105">Entrar</button>
             </form>
             <div id="login-error" class="hidden text-center p-3 bg-red-900/50 text-red-300 border border-red-500/50 font-medium rounded-lg"></div>
         </div>
     </div>
 
-    <!-- Container Principal do App (invisível até o login) -->
     <div id="app-container" class="hidden w-full h-full pb-24">
         
-        <!-- Page: Início (Checklist) -->
         <div id="page-home" class="hidden w-full">
             <div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700">
                 <div class="text-center">
                     <h1 class="text-2xl md:text-3xl font-bold text-gray-100">Checklist Mensal</h1>
                     <p class="text-gray-400 mt-1">Preencha os campos para iniciar</p>
                 </div>
-
-                <!-- Seção de Seleção -->
                 <div id="selection-screen" class="space-y-4 fade-in">
                     <div>
                         <label for="mall-select" class="block text-sm font-medium text-gray-300 mb-1">1. Selecione o Shopping:</label>
                         <select id="mall-select" required class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                            <option value="" disabled selected>-- Escolha um Shopping --</option>
+                            <option value="" disabled selected>-- Carregando Shoppings... --</option>
                         </select>
                     </div>
                     <div>
@@ -122,14 +89,10 @@
                         </select>
                     </div>
                 </div>
-
-                <!-- Seção de Resultados e Status -->
                 <div id="result-screen" class="hidden space-y-4">
                     <div id="status-message" class="text-center p-4 rounded-lg"></div>
                     <button id="new-evaluation-button" class="w-full bg-gray-700 text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-600">Fazer Nova Avaliação</button>
                 </div>
-
-                <!-- Seção do Checklist -->
                 <div id="checklist-screen" class="hidden space-y-5">
                     <h2 id="checklist-title" class="text-xl font-semibold text-gray-200 border-b border-gray-700 pb-2">Questionário</h2>
                     <div id="questions-container" class="space-y-4"></div>
@@ -138,95 +101,47 @@
             </div>
         </div>
         
-        <!-- Page: Resultados -->
         <div id="page-results" class="hidden w-full">
              <div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700">
                 <div class="text-center">
                     <h1 class="text-2xl md:text-3xl font-bold text-gray-100">Resultados das Avaliações</h1>
                     <p class="text-gray-400 mt-1">Análise de risco por shopping.</p>
                 </div>
-                 
                 <div>
                     <label for="results-mall-select" class="block text-sm font-medium text-gray-300 mb-1">Filtrar por Shopping:</label>
                     <select id="results-mall-select" required class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                         <option value="" disabled selected>-- Selecione um Shopping para analisar --</option>
                     </select>
                 </div>
-
                 <div id="results-content" class="hidden space-y-6">
-                    <div id="chart-container" class="p-4 bg-gray-700/50 rounded-lg">
-                        <canvas id="risk-chart"></canvas>
-                    </div>
-                    <div id="table-container">
-                        <!-- Tabela de resumo será inserida aqui -->
-                    </div>
+                    <div id="chart-container" class="p-4 bg-gray-700/50 rounded-lg"><canvas id="risk-chart"></canvas></div>
+                    <div id="table-container"></div>
                 </div>
-                 <div id="results-placeholder" class="text-center py-8">
-                     <p class="text-gray-500">Selecione um shopping para ver os resultados.</p>
-                 </div>
+                 <div id="results-placeholder" class="text-center py-8"><p class="text-gray-500">Selecione um shopping para ver os resultados.</p></div>
              </div>
         </div>
 
-        <!-- Page: Perfil -->
         <div id="page-profile" class="hidden w-full">
             <div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700 text-center">
                  <h1 class="text-2xl md:text-3xl font-bold text-gray-100">Perfil do Avaliador</h1>
                  <div class="flex flex-col items-center space-y-4 pt-4">
-                     <div class="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center border-2 border-blue-500">
-                         <!-- Ícone de usuário genérico -->
-                         <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                     </div>
+                     <div class="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center border-2 border-blue-500"><svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg></div>
                      <p id="profile-user-email" class="text-lg font-medium text-gray-300"></p>
-                     <button id="logout-button" class="w-full max-w-xs bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 transition-colors">
-                         Sair (Logout)
-                     </button>
+                     <button id="logout-button" class="w-full max-w-xs bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 transition-colors">Sair (Logout)</button>
                  </div>
             </div>
         </div>
+        
+        <div id="page-placeholder1" class="hidden w-full"><div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700 text-center"><h1 class="text-2xl md:text-3xl font-bold text-gray-100">Página em Construção</h1></div></div>
+        <div id="page-placeholder2" class="hidden w-full"><div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700 text-center"><h1 class="text-2xl md:text-3xl font-bold text-gray-100">Página em Construção</h1></div></div>
 
-        <!-- Pages Vazias (Placeholder) -->
-        <div id="page-placeholder1" class="hidden w-full">
-             <div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700 text-center">
-                 <h1 class="text-2xl md:text-3xl font-bold text-gray-100">Página em Construção</h1>
-            </div>
-        </div>
-        <div id="page-placeholder2" class="hidden w-full">
-            <div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700 text-center">
-                 <h1 class="text-2xl md:text-3xl font-bold text-gray-100">Página em Construção</h1>
-            </div>
-        </div>
-
-        <!-- Menu de Navegação -->
         <nav class="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700">
             <div class="grid grid-cols-5 w-full max-w-2xl mx-auto items-center text-center h-20">
-                <!-- Nav: Início -->
-                <button id="nav-home" class="nav-active flex flex-col items-center justify-center h-full">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                    <span class="text-xs mt-1">Início</span>
-                </button>
-                <!-- Nav: Resultados -->
-                <button id="nav-results" class="nav-inactive flex flex-col items-center justify-center h-full">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                    <span class="text-xs mt-1">Resultados</span>
-                </button>
-                
-                <!-- Nav: Perfil (Botão Central) -->
-                <div class="flex items-center justify-center">
-                    <button id="nav-profile" class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 shadow-lg transition-all duration-300 transform hover:scale-110">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                    </button>
-                </div>
-
-                <!-- Nav: Placeholder 1 -->
-                <button id="nav-placeholder1" class="nav-inactive flex flex-col items-center justify-center h-full" disabled>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span class="text-xs mt-1">Novo</span>
-                </button>
-                <!-- Nav: Placeholder 2 -->
-                <button id="nav-placeholder2" class="nav-inactive flex flex-col items-center justify-center h-full" disabled>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    <span class="text-xs mt-1">Ajustes</span>
-                </button>
+                <button id="nav-home" class="nav-active flex flex-col items-center justify-center h-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg><span class="text-xs mt-1">Início</span></button>
+                <button id="nav-results" class="nav-inactive flex flex-col items-center justify-center h-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg><span class="text-xs mt-1">Resultados</span></button>
+                <div class="flex items-center justify-center"><button id="nav-profile" class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 shadow-lg transition-all duration-300 transform hover:scale-110"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg></button></div>
+                <button id="nav-placeholder1" class="nav-inactive flex flex-col items-center justify-center h-full" disabled><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span class="text-xs mt-1">Novo</span></button>
+                <button id="nav-placeholder2" class="nav-inactive flex flex-col items-center justify-center h-full" disabled><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg><span class="text-xs mt-1">Ajustes</span></button>
             </div>
         </nav>
     </div>
@@ -237,26 +152,10 @@
         import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- DADOS DE CONFIGURAÇÃO (EXTRAÍDOS DO PROJETO ANTIGO) ---
-        const malls = [{ id: 'shopping-rdb', name: 'Shopping RDB' }];
-
-        const storesByBranch = {
-            'Joalheria': ['ORO', 'H. STERN', 'Vivara', 'Swarovski', 'Pandora'],
-            'Eletroeletrônicos': ['Fast Shop', 'Ponto', 'Magazine Luiza', 'iPlace'],
-            'Telefonia': ['TIM', 'Claro', 'Vivo'],
-            'Bancos e Caixas Eletrônicos': ['Itaú', 'Bradesco', 'Caixa 24h', 'Santander'],
-            'Casas de Câmbio e Lotéricas': ['Cotação', 'Confidence Câmbio', 'Lotérica da Sorte']
-        };
-
-        const stores = Object.entries(storesByBranch).flatMap(([branch, storeNames]) =>
-            storeNames.map(name => ({
-                id: name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-                name: name,
-                mallId: 'shopping-rdb',
-                branch: branch
-            }))
-        );
-
+        // --- DADOS DE CONFIGURAÇÃO ---
+        // ALTERAÇÃO: Os dados de shoppings e lojas foram REMOVIDOS daqui. Eles virão do Firestore.
+        
+        // As perguntas podem permanecer aqui por enquanto, ou também podem ser movidas para o Firestore no futuro.
         const questions = [
             { id: 'q1', text: 'Os funcionários da loja participaram do último treinamento semestral realizado pela área de segurança patrimonial do shopping?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } },
             { id: 'q2', text: 'A loja dispõe de agentes de segurança em horário de funcionamento? (Aplica-se a joalherias com produtos de altíssimo valor agregado)', risks: { 'Joalheria': 5, 'Bancos e Caixas Eletrônicos': 5 } },
@@ -294,17 +193,20 @@
 
         // --- INICIALIZAÇÃO DO FIREBASE ---
         const firebaseConfig = {
-          apiKey: "AIzaSyA5NplfNbnLx9tXEbzMqxCPCKL9Cp6NpF8",
-          authDomain: "checklist-lojas-app.firebaseapp.com",
-          projectId: "checklist-lojas-app",
-          storageBucket: "checklist-lojas-app.appspot.com",
-          messagingSenderId: "978287781671",
-          appId: "1:978287781671:web:1ecb094b087b48ded42b02",
-          measurementId: "G-LY5J0XW1FV"
+            apiKey: "AIzaSyA5NplfNbnLx9tXEbzMqxCPCKL9Cp6NpF8",
+  authDomain: "checklist-lojas-app.firebaseapp.com",
+  projectId: "checklist-lojas-app",
+  storageBucket: "checklist-lojas-app.firebasestorage.app",
+  messagingSenderId: "978287781671",
+  appId: "1:978287781671:web:1ecb094b087b48ded42b02",
+  measurementId: "G-LY5J0XW1FV"
         };
+        
+        let app, db, auth, currentUser = null, riskChart = null;
 
-        let app, db, auth, currentUser = null;
-        let riskChart = null; // Instância do gráfico
+        // ALTERAÇÃO: Variáveis para guardar os dados vindos do Firebase
+        let allMalls = [];
+        let currentMallStores = [];
 
         try {
             app = initializeApp(firebaseConfig);
@@ -312,58 +214,13 @@
             auth = getAuth(app);
         } catch (error) {
             console.error("Erro ao inicializar Firebase:", error);
-            if (error.message.includes("apiKey")) {
-                 document.body.innerHTML = `<div class="p-4 text-center bg-red-900/50 text-red-300"><strong>Erro Crítico:</strong> A configuração do Firebase está incompleta. Por favor, cole as chaves da API no código.</div>`;
-            } else {
-                 document.body.innerHTML = `<div class="p-4 text-center bg-red-900/50 text-red-300"><strong>Erro Crítico:</strong> Não foi possível inicializar a conexão com o Firebase. Detalhes: ${error.message}</div>`;
-            }
+            document.body.innerHTML = `<div class="p-4 text-center bg-red-900/50 text-red-300"><strong>Erro Crítico:</strong> Não foi possível inicializar a conexão com o Firebase. Detalhes: ${error.message}</div>`;
         }
         
-        // --- ELEMENTOS DO DOM ---
-        const loginPage = document.getElementById('login-page');
-        const appContainer = document.getElementById('app-container');
-        const loginForm = document.getElementById('login-form');
-        const loginEmail = document.getElementById('login-email');
-        const loginPassword = document.getElementById('login-password');
-        const loginButton = document.getElementById('login-button');
-        const loginError = document.getElementById('login-error');
-        const logoutButton = document.getElementById('logout-button');
-        const profileUserEmail = document.getElementById('profile-user-email');
-        const togglePassword = document.getElementById('toggle-password');
-        const eyeIcon = document.getElementById('eye-icon');
-        const eyeSlashedIcon = document.getElementById('eye-slashed-icon');
-        
-        const mallSelect = document.getElementById('mall-select');
-        const branchSelect = document.getElementById('branch-select');
-        const storeSelect = document.getElementById('store-select');
-        const selectionScreen = document.getElementById('selection-screen');
-        const checklistScreen = document.getElementById('checklist-screen');
-        const checklistTitle = document.getElementById('checklist-title');
-        const questionsContainer = document.getElementById('questions-container');
-        const saveButton = document.getElementById('save-button');
-        const statusMessage = document.getElementById('status-message');
-        const resultScreen = document.getElementById('result-screen');
-        const newEvaluationButton = document.getElementById('new-evaluation-button');
-        
-        const pageHome = document.getElementById('page-home');
-        const pageResults = document.getElementById('page-results');
-        const pageProfile = document.getElementById('page-profile');
-        const pagePlaceholder1 = document.getElementById('page-placeholder1');
-        const pagePlaceholder2 = document.getElementById('page-placeholder2');
-        
-        const navHome = document.getElementById('nav-home');
-        const navResults = document.getElementById('nav-results');
-        const navProfile = document.getElementById('nav-profile');
-        const navPlaceholder1 = document.getElementById('nav-placeholder1');
-        const navPlaceholder2 = document.getElementById('nav-placeholder2');
+        // --- ELEMENTOS DO DOM (Sem alterações) ---
+        const loginPage = document.getElementById('login-page'), appContainer = document.getElementById('app-container'), loginForm = document.getElementById('login-form'), loginEmail = document.getElementById('login-email'), loginPassword = document.getElementById('login-password'), loginButton = document.getElementById('login-button'), loginError = document.getElementById('login-error'), logoutButton = document.getElementById('logout-button'), profileUserEmail = document.getElementById('profile-user-email'), togglePassword = document.getElementById('toggle-password'), eyeIcon = document.getElementById('eye-icon'), eyeSlashedIcon = document.getElementById('eye-slashed-icon'), mallSelect = document.getElementById('mall-select'), branchSelect = document.getElementById('branch-select'), storeSelect = document.getElementById('store-select'), selectionScreen = document.getElementById('selection-screen'), checklistScreen = document.getElementById('checklist-screen'), checklistTitle = document.getElementById('checklist-title'), questionsContainer = document.getElementById('questions-container'), saveButton = document.getElementById('save-button'), statusMessage = document.getElementById('status-message'), resultScreen = document.getElementById('result-screen'), newEvaluationButton = document.getElementById('new-evaluation-button'), pageHome = document.getElementById('page-home'), pageResults = document.getElementById('page-results'), pageProfile = document.getElementById('page-profile'), pagePlaceholder1 = document.getElementById('page-placeholder1'), pagePlaceholder2 = document.getElementById('page-placeholder2'), navHome = document.getElementById('nav-home'), navResults = document.getElementById('nav-results'), navProfile = document.getElementById('nav-profile'), navPlaceholder1 = document.getElementById('nav-placeholder1'), navPlaceholder2 = document.getElementById('nav-placeholder2'), resultsMallSelect = document.getElementById('results-mall-select'), resultsContent = document.getElementById('results-content'), resultsPlaceholder = document.getElementById('results-placeholder'), tableContainer = document.getElementById('table-container');
 
-        const resultsMallSelect = document.getElementById('results-mall-select');
-        const resultsContent = document.getElementById('results-content');
-        const resultsPlaceholder = document.getElementById('results-placeholder');
-        const tableContainer = document.getElementById('table-container');
-
-        let currentAnswers = {};
-        let relevantQuestions = [];
+        let currentAnswers = {}, relevantQuestions = [];
 
         // --- CONTROLE DE AUTENTICAÇÃO ---
         if(auth) {
@@ -374,135 +231,77 @@
                     appContainer.classList.remove('hidden');
                     appContainer.classList.add('fade-in');
                     profileUserEmail.textContent = user.email;
-                    resetApp(); 
+                    iniciarAplicativo(); // ALTERAÇÃO: Chama a nova função de inicialização
                 } else {
                     currentUser = null;
                     loginPage.classList.remove('hidden');
                     appContainer.classList.add('hidden');
                 }
             });
-
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                loginButton.disabled = true;
-                loginButton.textContent = 'Entrando...';
-                loginError.classList.add('hidden');
-
-                try {
-                    await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
-                } catch (error) {
-                    console.error("Firebase Login Error:", error.code, error.message);
-
-                    let errorMessage = "Ocorreu um erro desconhecido. Tente novamente.";
-                    switch (error.code) {
-                        case 'auth/user-not-found':
-                        case 'auth/wrong-password':
-                        case 'auth/invalid-credential':
-                            errorMessage = "Email ou senha inválidos. Verifique os dados.";
-                            break;
-                        case 'auth/network-request-failed':
-                            errorMessage = "Erro de rede. Verifique sua conexão com a internet.";
-                            break;
-                        case 'auth/operation-not-allowed':
-                            errorMessage = "Login por E-mail/senha não está ativo no Firebase.";
-                            break;
-                        case 'auth/invalid-api-key':
-                        case 'auth/internal-error':
-                             errorMessage = "Erro de configuração do app. Contate o suporte.";
-                            break;
-                    }
-                    
-                    loginError.textContent = errorMessage;
-                    loginError.classList.remove('hidden');
-                } finally {
-                    loginButton.disabled = false;
-                    loginButton.textContent = 'Entrar';
-                }
-            });
-
-            logoutButton.addEventListener('click', async () => {
-                try {
-                    await signOut(auth);
-                } catch (error) {
-                    console.error("Erro ao sair:", error);
-                }
-            });
-            
-            togglePassword.addEventListener('click', () => {
-                const type = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-                loginPassword.setAttribute('type', type);
-                eyeIcon.classList.toggle('hidden');
-                eyeSlashedIcon.classList.toggle('hidden');
-            });
+            // ... (Restante do código de login/logout/toggle password sem alterações) ...
+            loginForm.addEventListener('submit', async(e) => { e.preventDefault(); loginButton.disabled = true; loginButton.textContent = 'Entrando...'; loginError.classList.add('hidden'); try { await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value); } catch (error) { console.error("Firebase Login Error:", error.code, error.message); let errorMessage = "Ocorreu um erro desconhecido. Tente novamente."; switch (error.code) { case 'auth/user-not-found': case 'auth/wrong-password': case 'auth/invalid-credential': errorMessage = "Email ou senha inválidos. Verifique os dados."; break; case 'auth/network-request-failed': errorMessage = "Erro de rede. Verifique sua conexão com a internet."; break; case 'auth/operation-not-allowed': errorMessage = "Login por E-mail/senha não está ativo no Firebase."; break; case 'auth/invalid-api-key': case 'auth/internal-error': errorMessage = "Erro de configuração do app. Contate o suporte."; break; } loginError.textContent = errorMessage; loginError.classList.remove('hidden'); } finally { loginButton.disabled = false; loginButton.textContent = 'Entrar'; } });
+            logoutButton.addEventListener('click', async () => { try { await signOut(auth); } catch (error) { console.error("Erro ao sair:", error); }});
+            togglePassword.addEventListener('click', () => { const type = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password'; loginPassword.setAttribute('type', type); eyeIcon.classList.toggle('hidden'); eyeSlashedIcon.classList.toggle('hidden'); });
         }
 
-
         // --- FUNÇÕES DE NAVEGAÇÃO E APP ---
-        function navigateTo(pageName) {
-            // Esconde todas as páginas
-            [pageHome, pageResults, pageProfile, pagePlaceholder1, pagePlaceholder2].forEach(p => p.classList.add('hidden'));
-            
-            // Coloca todos os botões no estado inativo
-            [navHome, navResults, navPlaceholder1, navPlaceholder2].forEach(b => {
-                b.classList.remove('nav-active');
-                b.classList.add('nav-inactive');
-            });
-            navProfile.classList.remove('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-gray-800');
-
-
-            // Mostra a página correta e ativa o botão correspondente
-            let targetPage;
-            let targetNav;
-
-            switch(pageName) {
-                case 'home':
-                    targetPage = pageHome;
-                    targetNav = navHome;
-                    break;
-                case 'results':
-                    targetPage = pageResults;
-                    targetNav = navResults;
-                    populateResultsFilter();
-                    break;
-                case 'profile':
-                    targetPage = pageProfile;
-                    targetNav = navProfile;
-                    break;
-                case 'placeholder1':
-                    targetPage = pagePlaceholder1;
-                    targetNav = navPlaceholder1;
-                    break;
-                case 'placeholder2':
-                    targetPage = pagePlaceholder2;
-                    targetNav = navPlaceholder2;
-                    break;
-                default:
-                    targetPage = pageHome;
-                    targetNav = navHome;
+        // ALTERAÇÃO: Nova função para buscar os shoppings do Firestore
+        async function fetchMallsFromDB() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "malls"));
+                const mallsList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                return mallsList.sort((a, b) => a.name.localeCompare(b.name));
+            } catch (error) {
+                console.error("Erro ao buscar shoppings: ", error);
+                return []; // Retorna array vazio em caso de erro
             }
+        }
 
-            targetPage.classList.remove('hidden');
-            if (targetNav) {
-                 if (pageName === 'profile') {
-                    targetNav.classList.add('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-gray-800');
-                 } else {
-                    targetNav.classList.remove('nav-inactive');
-                    targetNav.classList.add('nav-active');
-                 }
+        // ALTERAÇÃO: Nova função para buscar as lojas de um shopping específico
+        async function fetchStoresFromDB(mallId) {
+            try {
+                const q = query(collection(db, "stores"), where("mallId", "==", mallId));
+                const querySnapshot = await getDocs(q);
+                return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } catch (error) {
+                console.error("Erro ao buscar lojas: ", error);
+                return [];
             }
         }
         
+        function navigateTo(pageName) {
+            [pageHome, pageResults, pageProfile, pagePlaceholder1, pagePlaceholder2].forEach(p => p.classList.add('hidden'));
+            [navHome, navResults, navPlaceholder1, navPlaceholder2].forEach(b => { b.classList.remove('nav-active'); b.classList.add('nav-inactive'); });
+            navProfile.classList.remove('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-gray-800');
+            let targetPage, targetNav;
+            switch(pageName) {
+                case 'home': targetPage = pageHome; targetNav = navHome; break;
+                case 'results': targetPage = pageResults; targetNav = navResults; populateResultsFilter(); break;
+                case 'profile': targetPage = pageProfile; targetNav = navProfile; break;
+                case 'placeholder1': targetPage = pagePlaceholder1; targetNav = navPlaceholder1; break;
+                case 'placeholder2': targetPage = pagePlaceholder2; targetNav = navPlaceholder2; break;
+                default: targetPage = pageHome; targetNav = navHome;
+            }
+            targetPage.classList.remove('hidden');
+            if (targetNav) {
+                if (pageName === 'profile') targetNav.classList.add('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-gray-800');
+                else { targetNav.classList.remove('nav-inactive'); targetNav.classList.add('nav-active'); }
+            }
+        }
+        
+        // ALTERAÇÃO: A função agora usa a variável 'allMalls'
         function populateMalls() {
             mallSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Shopping --</option>';
-            malls.forEach(mall => {
+            allMalls.forEach(mall => {
                 const option = new Option(mall.name, mall.id);
                 mallSelect.add(option);
             });
         }
         
+        // ALTERAÇÃO: A função agora usa a variável 'allMalls'
         function populateResultsFilter() {
             resultsMallSelect.innerHTML = '<option value="" disabled selected>-- Selecione um Shopping para analisar --</option>';
-             malls.forEach(mall => {
+            allMalls.forEach(mall => {
                 const option = new Option(mall.name, mall.id);
                 resultsMallSelect.add(option);
             });
@@ -510,16 +309,14 @@
             resultsPlaceholder.classList.remove('hidden');
         }
 
-        function populateBranches(mallId) {
+        // ALTERAÇÃO: A lógica agora deriva os ramos das lojas buscadas
+        function populateBranches() {
             branchSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Tipo --</option>';
             storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>';
             branchSelect.disabled = true;
             storeSelect.disabled = true;
-            if (!mallId) return;
 
-            const filteredStores = stores.filter(store => store.mallId === mallId);
-            const uniqueBranches = [...new Set(filteredStores.map(store => store.branch))];
-            
+            const uniqueBranches = [...new Set(currentMallStores.map(store => store.branchName))];
             uniqueBranches.sort().forEach(branch => {
                 const option = new Option(branch, branch);
                 branchSelect.add(option);
@@ -527,10 +324,11 @@
             branchSelect.disabled = false;
         }
 
-        async function populateStores(branch, mallId) {
-            storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>';
+        // ALTERAÇÃO: A lógica foi atualizada para lidar com dados do Firestore
+        async function populateStores(branch) {
+            storeSelect.innerHTML = '<option value="" disabled selected>-- Carregando Lojas... --</option>';
             storeSelect.disabled = true;
-            if (!branch || !mallId) return;
+            if (!branch) return;
 
             const now = new Date();
             const monthYear = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
@@ -538,25 +336,22 @@
             
             try {
                 const evaluationsRef = collection(db, 'evaluations');
-                const q = query(evaluationsRef, where('mallId', '==', mallId), where('monthYear', '==', monthYear));
+                const q = query(evaluationsRef, where('mallId', '==', mallSelect.value), where('monthYear', '==', monthYear));
                 const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => {
-                    completedStoreIds.push(doc.data().storeId);
-                });
+                querySnapshot.forEach((doc) => completedStoreIds.push(doc.data().storeId));
             } catch (error) {
                 console.error("Erro ao buscar avaliações concluídas:", error);
             }
 
-            const filteredStores = stores.filter(store => store.mallId === mallId && store.branch === branch);
-            filteredStores.forEach(store => {
+            storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>';
+            const filteredStores = currentMallStores.filter(store => store.branchName === branch);
+            filteredStores.sort((a,b) => a.name.localeCompare(b.name)).forEach(store => {
                 const isCompleted = completedStoreIds.includes(store.id);
                 const option = new Option(
                     `${store.name} ${isCompleted ? '(✓ Concluído)' : ''}`,
                     store.id
                 );
-                if (isCompleted) {
-                    option.disabled = true;
-                }
+                if (isCompleted) option.disabled = true;
                 storeSelect.add(option);
             });
             storeSelect.disabled = false;
@@ -568,7 +363,8 @@
             resultScreen.classList.add('hidden');
             if (!storeId || !db) return;
 
-            const selectedStore = stores.find(s => s.id === storeId);
+            // ALTERAÇÃO: Busca a loja selecionada do array 'currentMallStores'
+            const selectedStore = currentMallStores.find(s => s.id === storeId);
             if (!selectedStore) return;
 
             const now = new Date();
@@ -576,15 +372,13 @@
             const evaluationId = `${storeId}_${monthYear}`;
             
             displayStatusMessage('Verificando...', 'loading', true);
-
             try {
                 const docRef = doc(db, 'evaluations', evaluationId);
                 const docSnap = await getDoc(docRef);
-
                 if (docSnap.exists()) {
                     displayStatusMessage('Esta loja já foi avaliada este mês.', 'info', true);
                 } else {
-                    relevantQuestions = questions.filter(q => q.risks[selectedStore.branch] !== undefined);
+                    relevantQuestions = questions.filter(q => q.risks[selectedStore.branchName] !== undefined);
                     resultScreen.classList.add('hidden');
                     statusMessage.classList.add('hidden');
                     renderChecklist(selectedStore);
@@ -604,7 +398,7 @@
             relevantQuestions.forEach(q => {
                 const questionEl = document.createElement('div');
                 questionEl.className = 'p-4 border border-gray-700 rounded-lg fade-in';
-                const riskValue = q.risks[selectedStore.branch];
+                const riskValue = q.risks[selectedStore.branchName];
                 questionEl.innerHTML = `<p class="font-medium text-gray-200">${q.text}</p><div class="flex items-center space-x-3 mt-3"><button data-question-id="${q.id}" data-answer="SIM" class="btn-inactive flex-1 py-2 px-4 border rounded-md">SIM</button><button data-question-id="${q.id}" data-answer="NÃO" class="btn-inactive flex-1 py-2 px-4 border rounded-md">NÃO</button></div><div id="risk-${q.id}" class="hidden mt-2 p-2 bg-red-900/50 text-red-300 font-semibold rounded-md text-sm">Risco: ${riskValue}</div>`;
                 questionsContainer.appendChild(questionEl);
             });
@@ -616,69 +410,56 @@
         function handleAnswerSelection(event) {
             const button = event.target.closest('button');
             if (!button || !button.dataset.questionId) return;
-
             const { questionId, answer } = button.dataset;
             currentAnswers[questionId] = answer;
-
             document.querySelectorAll(`button[data-question-id="${questionId}"]`).forEach(btn => {
                 btn.classList.toggle('btn-active', btn.dataset.answer === answer);
                 btn.classList.toggle('btn-inactive', btn.dataset.answer !== answer);
             });
-
-            const riskEl = document.getElementById(`risk-${questionId}`);
-            riskEl.classList.toggle('hidden', answer !== 'NÃO');
-            
+            document.getElementById(`risk-${questionId}`).classList.toggle('hidden', answer !== 'NÃO');
             saveButton.disabled = Object.keys(currentAnswers).length !== relevantQuestions.length;
         }
         
         async function saveEvaluation() {
             if (Object.keys(currentAnswers).length !== relevantQuestions.length) return;
-
             saveButton.disabled = true;
             saveButton.textContent = 'Salvando...';
-
             const storeId = storeSelect.value;
             const mallId = mallSelect.value;
-            const selectedStore = stores.find(s => s.id === storeId);
-            if (!selectedStore) return; // safety check
+            const selectedStore = currentMallStores.find(s => s.id === storeId);
+            if (!selectedStore) return;
 
             const now = new Date();
             const monthYear = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
             const evaluationId = `${storeId}_${monthYear}`;
 
-            const answersData = relevantQuestions.map(q => {
-                 const answer = currentAnswers[q.id];
-                 return {
-                    questionId: q.id,
-                    questionText: q.text,
-                    answer: answer,
-                    risk: (answer === 'NÃO') ? q.risks[selectedStore.branch] : 0,
-                }
-            });
+            const answersData = relevantQuestions.map(q => ({
+                questionId: q.id,
+                questionText: q.text,
+                answer: currentAnswers[q.id],
+                risk: (currentAnswers[q.id] === 'NÃO') ? q.risks[selectedStore.branchName] : 0,
+            }));
 
             const evaluationData = {
                 evaluatorId: currentUser.uid,
                 evaluatorEmail: currentUser.email,
                 mallId,
-                mallName: malls.find(m => m.id === mallId).name,
+                mallName: allMalls.find(m => m.id === mallId).name,
                 storeId,
                 storeName: selectedStore.name,
-                storeBranch: selectedStore.branch,
+                storeBranch: selectedStore.branchName, // ALTERAÇÃO: campo 'branch' para 'branchName'
                 monthYear,
                 createdAt: serverTimestamp(),
                 answers: answersData,
             };
 
             try {
-                // Caminho simplificado para o Firestore
                 const docRef = doc(db, 'evaluations', evaluationId);
                 await setDoc(docRef, evaluationData);
-                
                 displayStatusMessage(`Avaliação salva com sucesso!`, 'success', false);
                 checklistScreen.classList.add('hidden');
                 selectionScreen.classList.add('hidden');
                 resultScreen.classList.remove('hidden');
-
             } catch (error) {
                 console.error("Erro ao salvar:", error);
                 displayStatusMessage('Falha ao salvar. Tente novamente.', 'error', true);
@@ -687,178 +468,19 @@
                 saveButton.textContent = 'Salvar Avaliação';
             }
         }
-
-        function displayStatusMessage(message, type, showOnTop) {
-            statusMessage.textContent = message;
-            statusMessage.className = 'text-center p-4 rounded-lg fade-in border';
-            
-            if (showOnTop) {
-                selectionScreen.classList.add('hidden');
-                checklistScreen.classList.add('hidden');
-                resultScreen.classList.remove('hidden');
-                newEvaluationButton.classList.toggle('hidden', type === 'loading');
-            } else {
-                newEvaluationButton.classList.remove('hidden');
-            }
-
-            switch (type) {
-                case 'success': statusMessage.classList.add('bg-green-900/50', 'text-green-300', 'border-green-500/30'); break;
-                case 'error': statusMessage.classList.add('bg-red-900/50', 'text-red-300', 'border-red-500/30'); break;
-                case 'info': statusMessage.classList.add('bg-blue-900/50', 'text-blue-300', 'border-blue-500/30'); break;
-                case 'loading': statusMessage.classList.add('bg-yellow-900/50', 'text-yellow-300', 'border-yellow-500/30'); break;
-            }
-            statusMessage.classList.remove('hidden');
-        }
-
-        async function loadResults(mallId) {
-            if (!db || !mallId) {
-                resultsContent.classList.add('hidden');
-                resultsPlaceholder.classList.remove('hidden');
-                resultsPlaceholder.textContent = 'Selecione um shopping para ver os resultados.';
-                return;
-            }
-            
-            resultsPlaceholder.textContent = 'Carregando avaliações...';
-            resultsContent.classList.add('hidden');
-            resultsPlaceholder.classList.remove('hidden');
-            
-            try {
-                const evaluationsRef = collection(db, 'evaluations');
-                const q = query(evaluationsRef, where('mallId', '==', mallId));
-                const querySnapshot = await getDocs(q);
-
-                if (querySnapshot.empty) {
-                    resultsPlaceholder.textContent = 'Nenhuma avaliação encontrada para este shopping.';
-                    return;
-                }
-                
-                let evaluations = querySnapshot.docs.map(doc => doc.data());
-
-                // Ordenar os resultados no lado do cliente
-                evaluations.sort((a, b) => {
-                    const timeA = a.createdAt ? a.createdAt.toMillis() : 0;
-                    const timeB = b.createdAt ? b.createdAt.toMillis() : 0;
-                    return timeB - timeA;
-                });
-
-                renderRiskChart(evaluations);
-                renderResultsTable(evaluations);
-                
-                resultsContent.classList.remove('hidden');
-                resultsPlaceholder.classList.add('hidden');
-
-
-            } catch(error) {
-                console.error("Erro ao carregar resultados:", error);
-                resultsPlaceholder.textContent = 'Erro ao carregar os dados. Tente novamente mais tarde.';
-            }
-        }
-
-        function renderRiskChart(evaluations) {
-            const riskCounts = {};
-            evaluations.forEach(evalData => {
-                const maxRisk = evalData.answers.reduce((max, ans) => Math.max(max, ans.risk), 0);
-                riskCounts[maxRisk] = (riskCounts[maxRisk] || 0) + 1;
-            });
-            
-            const chartLabels = Object.keys(riskCounts).sort((a,b) => a-b).map(risk => `Risco ${risk}`);
-            const chartData = Object.keys(riskCounts).sort((a,b) => a-b).map(risk => riskCounts[risk]);
-
-            const ctx = document.getElementById('risk-chart').getContext('2d');
-            
-            if (riskChart) {
-                riskChart.destroy();
-            }
-
-            riskChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: chartLabels,
-                    datasets: [{
-                        label: 'Lojas por Nível de Risco',
-                        data: chartData,
-                        backgroundColor: [
-                            'rgba(75, 192, 192, 0.7)',
-                            'rgba(54, 162, 235, 0.7)',
-                            'rgba(255, 206, 86, 0.7)',
-                            'rgba(255, 159, 64, 0.7)',
-                            'rgba(255, 99, 132, 0.7)',
-                             'rgba(153, 102, 255, 0.7)'
-                        ],
-                        borderColor: '#1f2937',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                color: '#d1d5db',
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Distribuição de Lojas por Risco Máximo',
-                            color: '#e5e7eb',
-                            font: {
-                                size: 16
-                            }
-                        }
-                    }
-                }
-            });
-        }
         
-        function renderResultsTable(evaluations) {
-            if (evaluations.length === 0) {
-                tableContainer.innerHTML = '';
-                return;
-            }
-
-            let tableHTML = `
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left text-gray-400">
-                        <thead class="text-xs text-gray-300 uppercase bg-gray-700">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">Nome da Loja</th>
-                                <th scope="col" class="px-6 py-3">Ramo</th>
-                                <th scope="col" class="px-6 py-3 text-center">Risco Máximo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-
-            evaluations.forEach(evalData => {
-                const maxRisk = evalData.answers.reduce((max, ans) => Math.max(max, ans.risk), 0);
-                tableHTML += `
-                    <tr class="bg-gray-800 border-b border-gray-700 hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">${evalData.storeName}</th>
-                        <td class="px-6 py-4">${evalData.storeBranch}</td>
-                        <td class="px-6 py-4 text-center font-bold ${maxRisk > 0 ? 'text-red-400' : 'text-green-400'}">${maxRisk}</td>
-                    </tr>
-                `;
-            });
-
-            tableHTML += `
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            tableContainer.innerHTML = tableHTML;
-        }
-
+        // ... (Funções displayStatusMessage, loadResults, renderRiskChart, renderResultsTable sem alterações significativas) ...
+        function displayStatusMessage(message, type, showOnTop) { statusMessage.textContent = message; statusMessage.className = 'text-center p-4 rounded-lg fade-in border'; if (showOnTop) { selectionScreen.classList.add('hidden'); checklistScreen.classList.add('hidden'); resultScreen.classList.remove('hidden'); newEvaluationButton.classList.toggle('hidden', type === 'loading'); } else { newEvaluationButton.classList.remove('hidden'); } switch (type) { case 'success': statusMessage.classList.add('bg-green-900/50', 'text-green-300', 'border-green-500/30'); break; case 'error': statusMessage.classList.add('bg-red-900/50', 'text-red-300', 'border-red-500/30'); break; case 'info': statusMessage.classList.add('bg-blue-900/50', 'text-blue-300', 'border-blue-500/30'); break; case 'loading': statusMessage.classList.add('bg-yellow-900/50', 'text-yellow-300', 'border-yellow-500/30'); break; } statusMessage.classList.remove('hidden'); }
+        async function loadResults(mallId) { if (!db || !mallId) { resultsContent.classList.add('hidden'); resultsPlaceholder.classList.remove('hidden'); resultsPlaceholder.textContent = 'Selecione um shopping para ver os resultados.'; return; } resultsPlaceholder.textContent = 'Carregando avaliações...'; resultsContent.classList.add('hidden'); resultsPlaceholder.classList.remove('hidden'); try { const evaluationsRef = collection(db, 'evaluations'); const q = query(evaluationsRef, where('mallId', '==', mallId)); const querySnapshot = await getDocs(q); if (querySnapshot.empty) { resultsPlaceholder.textContent = 'Nenhuma avaliação encontrada para este shopping.'; return; } let evaluations = querySnapshot.docs.map(doc => doc.data()); evaluations.sort((a, b) => { const timeA = a.createdAt ? a.createdAt.toMillis() : 0; const timeB = b.createdAt ? b.createdAt.toMillis() : 0; return timeB - timeA; }); renderRiskChart(evaluations); renderResultsTable(evaluations); resultsContent.classList.remove('hidden'); resultsPlaceholder.classList.add('hidden'); } catch(error) { console.error("Erro ao carregar resultados:", error); resultsPlaceholder.textContent = 'Erro ao carregar os dados. Tente novamente mais tarde.'; } }
+        function renderRiskChart(evaluations) { const riskCounts = {}; evaluations.forEach(evalData => { const maxRisk = evalData.answers.reduce((max, ans) => Math.max(max, ans.risk), 0); riskCounts[maxRisk] = (riskCounts[maxRisk] || 0) + 1; }); const chartLabels = Object.keys(riskCounts).sort((a,b) => a-b).map(risk => `Risco ${risk}`); const chartData = Object.keys(riskCounts).sort((a,b) => a-b).map(risk => riskCounts[risk]); const ctx = document.getElementById('risk-chart').getContext('2d'); if (riskChart) { riskChart.destroy(); } riskChart = new Chart(ctx, { type: 'pie', data: { labels: chartLabels, datasets: [{ label: 'Lojas por Nível de Risco', data: chartData, backgroundColor: [ 'rgba(75, 192, 192, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(255, 206, 86, 0.7)', 'rgba(255, 159, 64, 0.7)', 'rgba(255, 99, 132, 0.7)', 'rgba(153, 102, 255, 0.7)' ], borderColor: '#1f2937', borderWidth: 2 }] }, options: { responsive: true, plugins: { legend: { position: 'top', labels: { color: '#d1d5db', font: { size: 14 } } }, title: { display: true, text: 'Distribuição de Lojas por Risco Máximo', color: '#e5e7eb', font: { size: 16 } } } } }); }
+        function renderResultsTable(evaluations) { if (evaluations.length === 0) { tableContainer.innerHTML = ''; return; } let tableHTML = `<div class="overflow-x-auto"><table class="w-full text-sm text-left text-gray-400"><thead class="text-xs text-gray-300 uppercase bg-gray-700"><tr><th scope="col" class="px-6 py-3">Nome da Loja</th><th scope="col" class="px-6 py-3">Ramo</th><th scope="col" class="px-6 py-3 text-center">Risco Máximo</th></tr></thead><tbody>`; evaluations.forEach(evalData => { const maxRisk = evalData.answers.reduce((max, ans) => Math.max(max, ans.risk), 0); tableHTML += `<tr class="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"><th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">${evalData.storeName}</th><td class="px-6 py-4">${evalData.storeBranch}</td><td class="px-6 py-4 text-center font-bold ${maxRisk > 0 ? 'text-red-400' : 'text-green-400'}">${maxRisk}</td></tr>`; }); tableHTML += `</tbody></table></div>`; tableContainer.innerHTML = tableHTML; }
+        
         function resetApp() {
             populateMalls();
             resultScreen.classList.add('hidden');
             checklistScreen.classList.add('hidden');
             selectionScreen.classList.remove('hidden');
             selectionScreen.classList.add('fade-in');
-            
             mallSelect.value = '';
             branchSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Tipo --</option>';
             branchSelect.disabled = true;
@@ -866,13 +488,31 @@
             storeSelect.disabled = true;
             currentAnswers = {};
             relevantQuestions = [];
+            currentMallStores = [];
             navigateTo('home');
+        }
+        
+        // ALTERAÇÃO: Nova função de inicialização
+        async function iniciarAplicativo() {
+            allMalls = await fetchMallsFromDB();
+            resetApp(); // ResetApp agora é chamado depois de buscar os shoppings
+            populateResultsFilter(); // Popula o filtro de resultados também
         }
 
         // --- EVENT LISTENERS ---
         if(auth) {
-            mallSelect.addEventListener('change', () => populateBranches(mallSelect.value));
-            branchSelect.addEventListener('change', () => populateStores(branchSelect.value, mallSelect.value));
+            // ALTERAÇÃO: Event listeners adaptados para a lógica assíncrona
+            mallSelect.addEventListener('change', async () => {
+                const mallId = mallSelect.value;
+                branchSelect.innerHTML = '<option value="" disabled selected>-- Carregando Tipos... --</option>';
+                branchSelect.disabled = true;
+                storeSelect.disabled = true;
+                if (!mallId) return;
+                currentMallStores = await fetchStoresFromDB(mallId);
+                populateBranches();
+            });
+            branchSelect.addEventListener('change', () => populateStores(branchSelect.value));
+            
             storeSelect.addEventListener('change', handleStoreSelection);
             questionsContainer.addEventListener('click', handleAnswerSelection);
             saveButton.addEventListener('click', saveEvaluation);
@@ -888,4 +528,3 @@
     </script>
 </body>
 </html>
-
