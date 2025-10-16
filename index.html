@@ -6,6 +6,7 @@
     <title>Checklist de Lojas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -119,420 +120,153 @@
                  <div id="results-placeholder" class="text-center py-8"><p class="text-gray-500">Selecione um shopping para ver os resultados.</p></div>
              </div>
         </div>
+
         <div id="page-profile" class="hidden w-full">
             <div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700 text-center">
                  <h1 class="text-2xl md:text-3xl font-bold text-gray-100">Perfil do Avaliador</h1>
                  <div class="flex flex-col items-center space-y-4 pt-4">
-                     <div class="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center border-2 border-blue-500"><svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg></div>
-                     <p id="profile-user-email" class="text-lg font-medium text-gray-300"></p>
-                     <button id="logout-button" class="w-full max-w-xs bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 transition-colors">Sair (Logout)</button>
+                      <div class="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center border-2 border-blue-500"><svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg></div>
+                      <p id="profile-user-email" class="text-lg font-medium text-gray-300"></p>
+                      <button id="logout-button" class="w-full max-w-xs bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 transition-colors">Sair (Logout)</button>
                  </div>
             </div>
         </div>
-        <div id="page-placeholder1" class="hidden w-full"><div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700 text-center"><h1 class="text-2xl md:text-3xl font-bold text-gray-100">Página em Construção</h1></div></div>
+
+        <div id="page-audit" class="hidden w-full">
+            <div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700">
+                <div class="text-center">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-100">Central de Auditoria</h1>
+                    <p class="text-gray-400 mt-1">Revise os detalhes das avaliações concluídas.</p>
+                </div>
+                <div id="audit-selection-screen" class="space-y-4 fade-in">
+                    <div>
+                        <label for="audit-mall-select" class="block text-sm font-medium text-gray-300 mb-1">1. Filtre por Shopping:</label>
+                        <select id="audit-mall-select" required class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>-- Selecione um Shopping --</option>
+                        </select>
+                    </div>
+                    <div id="audit-list-container" class="space-y-3 pt-4">
+                        <p class="text-center text-gray-500">Selecione um shopping para ver as avaliações.</p>
+                    </div>
+                </div>
+                <div id="audit-details-screen" class="hidden space-y-4">
+                    <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                         <h2 id="audit-details-title" class="text-xl font-semibold text-gray-200">Detalhes da Avaliação</h2>
+                         <button id="audit-back-button" class="text-sm bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded-lg">&larr; Voltar</button>
+                    </div>
+                    <div id="audit-details-content" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+
         <div id="page-placeholder2" class="hidden w-full"><div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-700 text-center"><h1 class="text-2xl md:text-3xl font-bold text-gray-100">Página em Construção</h1></div></div>
+        
         <nav class="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700">
             <div class="grid grid-cols-5 w-full max-w-2xl mx-auto items-center text-center h-20">
                 <button id="nav-home" class="nav-active flex flex-col items-center justify-center h-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg><span class="text-xs mt-1">Início</span></button>
                 <button id="nav-results" class="nav-inactive flex flex-col items-center justify-center h-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg><span class="text-xs mt-1">Resultados</span></button>
                 <div class="flex items-center justify-center"><button id="nav-profile" class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 shadow-lg transition-all duration-300 transform hover:scale-110"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg></button></div>
-                <button id="nav-placeholder1" class="nav-inactive flex flex-col items-center justify-center h-full" disabled><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span class="text-xs mt-1">Novo</span></button>
+                <button id="nav-audit" class="nav-inactive flex flex-col items-center justify-center h-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg><span class="text-xs mt-1">Auditoria</span></button>
                 <button id="nav-placeholder2" class="nav-inactive flex flex-col items-center justify-center h-full" disabled><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg><span class="text-xs mt-1">Ajustes</span></button>
             </div>
         </nav>
-
     </div>
 
-    <script type="module">
-        // Importações do Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        
-        // As perguntas (sem alterações)
-        const questions = [
-            { id: 'q1', text: 'Os funcionários da loja participaram do último treinamento semestral realizado pela área de segurança patrimonial do shopping?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } },
-            { id: 'q2', text: 'A loja dispõe de agentes de segurança em horário de funcionamento? (Aplica-se a joalherias com produtos de altíssimo valor agregado)', risks: { 'Joalheria': 5, 'Bancos e Caixas Eletrônicos': 5 } },
-            { id: 'q3', text: 'A loja possui protocolos internos de segurança? (Documento escrito)', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 3, 'Casas de Câmbio e Lotéricas': 3 } },
-            { id: 'q4', text: 'Existem funcionários listados no portal do lojista como "ativos" que foram desligados ou estão afastados?', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 4 } },
-            { id: 'q5', text: 'A loja, depósito e área de fancoil possuem paredes de alvenaria, incluindo região acima do forro?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } },
-            { id: 'q6', text: 'COFRE: A loja possui cofre para guarda de valores em espécie ou peças de valor em área restrita de circulação?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } },
-            { id: 'q7', text: 'COFRE: O cofre é ancorado ao piso ou à parede, de forma a evitar que seja movimentado?', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 3, 'Casas de Câmbio e Lotéricas': 3 } },
-            { id: 'q8', text: 'COFRE: O cofre possui mecanismo de abertura somente em horário programado?', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 3, 'Casas de Câmbio e Lotéricas': 3 } },
-            { id: 'q9', text: 'A loja possui espaço seguro para guarda de produtos de alto valor em área restrita de circulação?', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 5 } },
-            { id: 'q10', text: 'A vitrine/mostruário possui trancas em todos os acessos?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5 } },
-            { id: 'q11', text: 'A vitrine/cabine de recebimento é blindada?', risks: { 'Joalheria': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } },
-            { id: 'q12', text: 'Existe exposição de itens de alto valor nas vitrines fora do horário comercial?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5 } },
-            { id: 'q13', text: 'Existe sinalização informando que a loja está sendo monitorada por sistema de câmeras?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } },
-            { id: 'q14', text: 'A loja possui acesso alternativo (saída para corredor técnico)?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } },
-            { id: 'q15', text: 'A porta principal possui fechadura física além do acionamento por controle remoto (redundância)?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } },
-            { id: 'q16', text: 'A loja possui sistema de CFTV?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } },
-            { id: 'q17', text: 'CFTV: O sistema de CFTV possui capacidade de armazenamento das imagens por no mínimo 30 dias?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } },
-            { id: 'q18', text: 'CFTV: O equipamento de armazenamento das imagens fica em local protegido, evitando o acesso indevido ao equipamento?', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 3, 'Casas de Câmbio e Lotéricas': 3 } },
-            { id: 'q19', text: 'CFTV: A loja possui pontos cegos relevantes de monitoramento (acessos, expositores, vitrines e estoques)?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } },
-            { id: 'q20', text: 'CFTV: Existe monitoramento ativo do CFTV? (Aplica-se apenas para operações com produtos com altíssimo valor)', risks: { 'Joalheria': 5 } },
-            { id: 'q21', text: 'A loja possui alarme antipânico?', risks: { 'Joalheria': 3, 'Bancos e Caixas Eletrônicos': 3, 'Casas de Câmbio e Lotéricas': 3 } },
-            { id: 'q22', text: 'As mercadorias expostas possuem sistema de alarme interligado?', risks: { 'Eletroeletrônicos': 4, 'Telefonia': 4 } },
-            { id: 'q23', text: 'A loja possui sensor de presença interligado a um alarme sonoro audível?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } },
-            { id: 'q24', text: 'Vitrines e mostruários têm sistema antifurto/vandalismo com sensoriamento e alarme sonoro?', risks: { 'Joalheria': 5 } },
-            { id: 'q25', text: 'Há sensores de portas interligados a alarmes sonoros?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } },
-            { id: 'q26', text: 'Os sistemas de proteção instalados estão operacionais?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } },
-            { id: 'q27', text: 'O shopping instala sensores de presença (alarme) em lojas desocupadas adjacentes a operações de risco?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } },
-            { id: 'q28', text: 'O terminal eletrônico do shopping possui câmera dedicada?', risks: { 'Bancos e Caixas Eletrônicos': 5 } },
-            { id: 'q29', text: 'A segurança realiza vistorias nos terminais eletrônicos com periodicidade durante o plantão?', risks: { 'Bancos e Caixas Eletrônicos': 4 } },
-            { id: 'q30', text: 'O shopping impõe uma lista prévia para autorizar o acesso dos colaboradores responsáveis pela manutenção dos terminais de saque?', risks: { 'Bancos e Caixas Eletrônicos': 5 } },
-            { id: 'q31', text: 'A abertura e fechamento de portas da loja é acompanhada por equipe de segurança do shopping?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } },
-            { id: 'q32', text: 'Há limite de horário para operação de recebimento de novas mercadorias / carros forte (das 07h às 09h30)?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } }
-        ];
+<script>
+    // --- 1. CONFIGURAÇÃO E INICIALIZAÇÃO DO SUPABASE ---
+    const SUPABASE_URL = 'https://aoohkmlpwnbkvtsiyamp.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvb2hrbWxwd25ia3Z0c2l5YW1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MjAwNTEsImV4cCI6MjA3NjE5NjA1MX0.AkGA6X4tB3L2uXFj-fL09nVf1Qmm3JyoxB_-8cMuXVw';
+    const supa = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // --- INICIALIZAÇÃO DO FIREBASE ---
-        const firebaseConfig = {
-            // !!! COLOQUE SUAS CREDENCIAIS AQUI !!!
-            apiKey: "AIzaSyA5NplfNbnLx9tXEbzMqxCPCKL9Cp6NpF8",
-  authDomain: "checklist-lojas-app.firebaseapp.com",
-  projectId: "checklist-lojas-app",
-  storageBucket: "checklist-lojas-app.firebasestorage.app",
-  messagingSenderId: "978287781671",
-  appId: "1:978287781671:web:1ecb094b087b48ded42b02",
-  measurementId: "G-LY5J0XW1FV"
-        };
-        
-        // ... (resto do script, inicialização, elementos do DOM) ...
-        let app, db, auth, currentUser = null, riskChart = null;
-        let allMalls = [], currentMallStores = [];
+    // --- VARIÁVEIS GLOBAIS E ELEMENTOS DO DOM ---
+    const questions = [ { id: 'q1', text: 'Os funcionários da loja participaram do último treinamento semestral realizado pela área de segurança patrimonial do shopping?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } }, { id: 'q2', text: 'A loja dispõe de agentes de segurança em horário de funcionamento? (Aplica-se a joalherias com produtos de altíssimo valor agregado)', risks: { 'Joalheria': 5, 'Bancos e Caixas Eletrônicos': 5 } }, { id: 'q3', text: 'A loja possui protocolos internos de segurança? (Documento escrito)', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 3, 'Casas de Câmbio e Lotéricas': 3 } }, { id: 'q4', text: 'Existem funcionários listados no portal do lojista como "ativos" que foram desligados ou estão afastados?', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 4 } }, { id: 'q5', text: 'A loja, depósito e área de fancoil possuem paredes de alvenaria, incluindo região acima do forro?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } }, { id: 'q6', text: 'COFRE: A loja possui cofre para guarda de valores em espécie ou peças de valor em área restrita de circulação?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } }, { id: 'q7', text: 'COFRE: O cofre é ancorado ao piso ou à parede, de forma a evitar que seja movimentado?', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 3, 'Casas de Câmbio e Lotéricas': 3 } }, { id: 'q8', text: 'COFRE: O cofre possui mecanismo de abertura somente em horário programado?', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 3, 'Casas de Câmbio e Lotéricas': 3 } }, { id: 'q9', text: 'A loja possui espaço seguro para guarda de produtos de alto valor em área restrita de circulação?', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 5 } }, { id: 'q10', text: 'A vitrine/mostruário possui trancas em todos os acessos?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5 } }, { id: 'q11', text: 'A vitrine/cabine de recebimento é blindada?', risks: { 'Joalheria': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } }, { id: 'q12', text: 'Existe exposição de itens de alto valor nas vitrines fora do horário comercial?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5 } }, { id: 'q13', text: 'Existe sinalização informando que a loja está sendo monitorada por sistema de câmeras?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } }, { id: 'q14', text: 'A loja possui acesso alternativo (saída para corredor técnico)?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } }, { id: 'q15', text: 'A porta principal possui fechadura física além do acionamento por controle remoto (redundância)?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } }, { id: 'q16', text: 'A loja possui sistema de CFTV?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } }, { id: 'q17', text: 'CFTV: O sistema de CFTV possui capacidade de armazenamento das imagens por no mínimo 30 dias?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } }, { id: 'q18', text: 'CFTV: O equipamento de armazenamento das imagens fica em local protegido, evitando o acesso indevido ao equipamento?', risks: { 'Joalheria': 3, 'Eletroeletrônicos': 3, 'Telefonia': 3, 'Bancos e Caixas Eletrônicos': 3, 'Casas de Câmbio e Lotéricas': 3 } }, { id: 'q19', text: 'CFTV: A loja possui pontos cegos relevantes de monitoramento (acessos, expositores, vitrines e estoques)?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } }, { id: 'q20', text: 'CFTV: Existe monitoramento ativo do CFTV? (Aplica-se apenas para operações com produtos com altíssimo valor)', risks: { 'Joalheria': 5 } }, { id: 'q21', text: 'A loja possui alarme antipânico?', risks: { 'Joalheria': 3, 'Bancos e Caixas Eletrônicos': 3, 'Casas de Câmbio e Lotéricas': 3 } }, { id: 'q22', text: 'As mercadorias expostas possuem sistema de alarme interligado?', risks: { 'Eletroeletrônicos': 4, 'Telefonia': 4 } }, { id: 'q23', text: 'A loja possui sensor de presença interligado a um alarme sonoro audível?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } }, { id: 'q24', text: 'Vitrines e mostruários têm sistema antifurto/vandalismo com sensoriamento e alarme sonoro?', risks: { 'Joalheria': 5 } }, { id: 'q25', text: 'Há sensores de portas interligados a alarmes sonoros?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } }, { id: 'q26', text: 'Os sistemas de proteção instalados estão operacionais?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } }, { id: 'q27', text: 'O shopping instala sensores de presença (alarme) em lojas desocupadas adjacentes a operações de risco?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } }, { id: 'q28', text: 'O terminal eletrônico do shopping possui câmera dedicada?', risks: { 'Bancos e Caixas Eletrônicos': 5 } }, { id: 'q29', text: 'A segurança realiza vistorias nos terminais eletrônicos com periodicidade durante o plantão?', risks: { 'Bancos e Caixas Eletrônicos': 4 } }, { id: 'q30', text: 'O shopping impõe uma lista prévia para autorizar o acesso dos colaboradores responsáveis pela manutenção dos terminais de saque?', risks: { 'Bancos e Caixas Eletrônicos': 5 } }, { id: 'q31', text: 'A abertura e fechamento de portas da loja é acompanhada por equipe de segurança do shopping?', risks: { 'Joalheria': 4, 'Eletroeletrônicos': 4, 'Telefonia': 4, 'Bancos e Caixas Eletrônicos': 4, 'Casas de Câmbio e Lotéricas': 4 } }, { id: 'q32', text: 'Há limite de horário para operação de recebimento de novas mercadorias / carros forte (das 07h às 09h30)?', risks: { 'Joalheria': 5, 'Eletroeletrônicos': 5, 'Telefonia': 5, 'Bancos e Caixas Eletrônicos': 5, 'Casas de Câmbio e Lotéricas': 5 } } ];
+    let currentUser = null, riskChart = null; let allMalls = [], currentMallStores = []; let currentAnswers = {}, relevantQuestions = [];
+    const loginPage = document.getElementById('login-page'), appContainer = document.getElementById('app-container'), loginForm = document.getElementById('login-form'), loginEmail = document.getElementById('login-email'), loginPassword = document.getElementById('login-password'), loginButton = document.getElementById('login-button'), loginError = document.getElementById('login-error'), logoutButton = document.getElementById('logout-button'), profileUserEmail = document.getElementById('profile-user-email'), togglePassword = document.getElementById('toggle-password'), eyeIcon = document.getElementById('eye-icon'), eyeSlashedIcon = document.getElementById('eye-slashed-icon'), mallSelect = document.getElementById('mall-select'), branchSelect = document.getElementById('branch-select'), storeSelect = document.getElementById('store-select'), selectionScreen = document.getElementById('selection-screen'), checklistScreen = document.getElementById('checklist-screen'), checklistTitle = document.getElementById('checklist-title'), questionsContainer = document.getElementById('questions-container'), saveButton = document.getElementById('save-button'), statusMessage = document.getElementById('status-message'), resultScreen = document.getElementById('result-screen'), newEvaluationButton = document.getElementById('new-evaluation-button'), pageHome = document.getElementById('page-home'), pageResults = document.getElementById('page-results'), pageProfile = document.getElementById('page-profile'), pagePlaceholder2 = document.getElementById('page-placeholder2'), navHome = document.getElementById('nav-home'), navResults = document.getElementById('nav-results'), navProfile = document.getElementById('nav-profile'), navPlaceholder2 = document.getElementById('nav-placeholder2'), resultsMallSelect = document.getElementById('results-mall-select'), resultsContent = document.getElementById('results-content'), resultsPlaceholder = document.getElementById('results-placeholder'), tableContainer = document.getElementById('table-container');
+    const pauseButton = document.getElementById('pause-button');
+    const pageAudit = document.getElementById('page-audit'), navAudit = document.getElementById('nav-audit'), auditMallSelect = document.getElementById('audit-mall-select'), auditSelectionScreen = document.getElementById('audit-selection-screen'), auditListContainer = document.getElementById('audit-list-container'), auditDetailsScreen = document.getElementById('audit-details-screen'), auditDetailsTitle = document.getElementById('audit-details-title'), auditDetailsContent = document.getElementById('audit-details-content'), auditBackButton = document.getElementById('audit-back-button');
 
-        try { app = initializeApp(firebaseConfig); db = getFirestore(app); auth = getAuth(app); } 
-        catch (error) { console.error("Erro ao inicializar Firebase:", error); document.body.innerHTML = `<div class="p-4 text-center bg-red-900/50 text-red-300"><strong>Erro Crítico:</strong> Não foi possível inicializar a conexão com o Firebase. Detalhes: ${error.message}</div>`; }
-        
-        const loginPage = document.getElementById('login-page'), appContainer = document.getElementById('app-container'), loginForm = document.getElementById('login-form'), loginEmail = document.getElementById('login-email'), loginPassword = document.getElementById('login-password'), loginButton = document.getElementById('login-button'), loginError = document.getElementById('login-error'), logoutButton = document.getElementById('logout-button'), profileUserEmail = document.getElementById('profile-user-email'), togglePassword = document.getElementById('toggle-password'), eyeIcon = document.getElementById('eye-icon'), eyeSlashedIcon = document.getElementById('eye-slashed-icon'), mallSelect = document.getElementById('mall-select'), branchSelect = document.getElementById('branch-select'), storeSelect = document.getElementById('store-select'), selectionScreen = document.getElementById('selection-screen'), checklistScreen = document.getElementById('checklist-screen'), checklistTitle = document.getElementById('checklist-title'), questionsContainer = document.getElementById('questions-container'), saveButton = document.getElementById('save-button'), statusMessage = document.getElementById('status-message'), resultScreen = document.getElementById('result-screen'), newEvaluationButton = document.getElementById('new-evaluation-button'), pageHome = document.getElementById('page-home'), pageResults = document.getElementById('page-results'), pageProfile = document.getElementById('page-profile'), pagePlaceholder1 = document.getElementById('page-placeholder1'), pagePlaceholder2 = document.getElementById('page-placeholder2'), navHome = document.getElementById('nav-home'), navResults = document.getElementById('nav-results'), navProfile = document.getElementById('nav-profile'), navPlaceholder1 = document.getElementById('nav-placeholder1'), navPlaceholder2 = document.getElementById('nav-placeholder2'), resultsMallSelect = document.getElementById('results-mall-select'), resultsContent = document.getElementById('results-content'), resultsPlaceholder = document.getElementById('results-placeholder'), tableContainer = document.getElementById('table-container');
-        const pauseButton = document.getElementById('pause-button'); // --- NOVA FUNCIONALIDADE ---
+    // --- AUTENTICAÇÃO ---
+    supa.auth.onAuthStateChange((event, session) => { if (session && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) { currentUser = session.user; loginPage.classList.add('hidden'); appContainer.classList.remove('hidden'); profileUserEmail.textContent = currentUser.email; if(allMalls.length === 0) iniciarAplicativo(); } else if (event === 'SIGNED_OUT') { currentUser = null; loginPage.classList.remove('hidden'); appContainer.classList.add('hidden'); } });
+    loginForm.addEventListener('submit', async (e) => { e.preventDefault(); loginButton.disabled = true; loginButton.textContent = 'Entrando...'; loginError.classList.add('hidden'); const { error } = await supa.auth.signInWithPassword({ email: loginEmail.value, password: loginPassword.value, }); if (error) { loginError.textContent = "Email ou senha inválidos."; loginError.classList.remove('hidden'); } loginButton.disabled = false; loginButton.textContent = 'Entrar'; });
+    logoutButton.addEventListener('click', async () => { await supa.auth.signOut(); });
+    togglePassword.addEventListener('click', () => { const type = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password'; loginPassword.setAttribute('type', type); eyeIcon.classList.toggle('hidden'); eyeSlashedIcon.classList.toggle('hidden'); });
 
-        let currentAnswers = {}, relevantQuestions = [];
-
-        // --- CONTROLE DE AUTENTICAÇÃO ---
-        if(auth) {
-            onAuthStateChanged(auth, user => {
-                if (user) {
-                    currentUser = user;
-                    loginPage.classList.add('hidden');
-                    appContainer.classList.remove('hidden');
-                    appContainer.classList.add('fade-in');
-                    profileUserEmail.textContent = user.email;
-                    iniciarAplicativo(); 
-                } else {
-                    currentUser = null;
-                    loginPage.classList.remove('hidden');
-                    appContainer.classList.add('hidden');
-                }
-            });
-            loginForm.addEventListener('submit', async(e) => { e.preventDefault(); loginButton.disabled = true; loginButton.textContent = 'Entrando...'; loginError.classList.add('hidden'); try { await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value); } catch (error) { console.error("Firebase Login Error:", error.code, error.message); let errorMessage = "Ocorreu um erro desconhecido. Tente novamente."; switch (error.code) { case 'auth/user-not-found': case 'auth/wrong-password': case 'auth/invalid-credential': errorMessage = "Email ou senha inválidos. Verifique os dados."; break; case 'auth/network-request-failed': errorMessage = "Erro de rede. Verifique sua conexão com a internet."; break; default: errorMessage = "Erro de configuração ou de rede. Contate o suporte."; break; } loginError.textContent = errorMessage; loginError.classList.remove('hidden'); } finally { loginButton.disabled = false; loginButton.textContent = 'Entrar'; } });
-            logoutButton.addEventListener('click', async () => { try { await signOut(auth); } catch (error) { console.error("Erro ao sair:", error); }});
-            togglePassword.addEventListener('click', () => { const type = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password'; loginPassword.setAttribute('type', type); eyeIcon.classList.toggle('hidden'); eyeSlashedIcon.classList.toggle('hidden'); });
-        }
-
-        // --- FUNÇÕES DE BUSCA DE DADOS ---
-        async function fetchMallsFromDB() {
-            try { const querySnapshot = await getDocs(collection(db, "malls")); const mallsList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); return mallsList.sort((a, b) => a.name.localeCompare(b.name)); } 
-            catch (error) { console.error("Erro ao buscar shoppings: ", error); return []; }
-        }
-        async function fetchStoresFromDB(mallId) {
-            try { const q = query(collection(db, "stores"), where("mallId", "==", mallId)); const querySnapshot = await getDocs(q); return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); } 
-            catch (error) { console.error("Erro ao buscar lojas: ", error); return []; }
-        }
-        
-        // --- FUNÇÕES DE NAVEGAÇÃO E APP ---
-        function navigateTo(pageName) {
-            [pageHome, pageResults, pageProfile, pagePlaceholder1, pagePlaceholder2].forEach(p => p.classList.add('hidden'));
-            [navHome, navResults, navPlaceholder1, navPlaceholder2].forEach(b => { b.classList.remove('nav-active'); b.classList.add('nav-inactive'); });
-            navProfile.classList.remove('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-gray-800');
-            let targetPage, targetNav;
-            switch(pageName) {
-                case 'home': targetPage = pageHome; targetNav = navHome; break;
-                case 'results': targetPage = pageResults; targetNav = navResults; populateResultsFilter(); break;
-                case 'profile': targetPage = pageProfile; targetNav = navProfile; break;
-                default: targetPage = pageHome; targetNav = navHome;
-            }
-            targetPage.classList.remove('hidden');
-            if (targetNav) {
-                if (pageName === 'profile') targetNav.classList.add('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-gray-800');
-                else { targetNav.classList.remove('nav-inactive'); targetNav.classList.add('nav-active'); }
-            }
-        }
-        
-        function populateMalls() {
-            mallSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Shopping --</option>';
-            allMalls.forEach(mall => mallSelect.add(new Option(mall.name, mall.id)));
-        }
-        
-        function populateResultsFilter() {
-            resultsMallSelect.innerHTML = '<option value="" disabled selected>-- Selecione um Shopping para analisar --</option>';
-            allMalls.forEach(mall => resultsMallSelect.add(new Option(mall.name, mall.id)));
-            resultsContent.classList.add('hidden');
-            resultsPlaceholder.classList.remove('hidden');
-        }
-
-        function populateBranches() {
-            branchSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Tipo --</option>';
-            storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>';
-            branchSelect.disabled = true;
-            storeSelect.disabled = true;
-            const uniqueBranches = [...new Set(currentMallStores.map(store => store.branchName))];
-            uniqueBranches.sort().forEach(branch => branchSelect.add(new Option(branch, branch)));
-            branchSelect.disabled = false;
-        }
-
-        // --- NOVA FUNCIONALIDADE --- : Lógica para status "Concluído" e "Em Andamento"
-        async function populateStores(branch) {
-            storeSelect.innerHTML = '<option value="" disabled selected>-- Carregando Lojas... --</option>';
-            storeSelect.disabled = true;
-            if (!branch) return;
-
-            const now = new Date();
-            const monthYear = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-            const evaluationsStatus = {};
+    // --- FUNÇÕES DE DADOS ---
+    async function fetchMallsFromDB() { const { data, error } = await supa.from('malls').select('*').order('name'); if (error) { console.error("Erro ao buscar shoppings:", error); return []; } return data; }
+    async function fetchStoresFromDB(mallId) { const { data, error } = await supa.from('stores').select('*').eq('mallId', mallId); if (error) { console.error("Erro ao buscar lojas:", error); return []; } return data; }
+    async function saveOrPauseEvaluation(status) { if (Object.keys(currentAnswers).length === 0) return; const finalButton = (status === 'completed') ? saveButton : pauseButton; const originalText = finalButton.textContent; finalButton.disabled = true; finalButton.textContent = 'Salvando...'; const storeId = storeSelect.value; const mallId = mallSelect.value; const selectedStore = currentMallStores.find(s => s.id == storeId); const monthYear = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`; const evaluationId = `${storeId}_${monthYear}`; const answersData = Object.entries(currentAnswers).map(([qId, data]) => ({ questionId: qId, questionText: questions.find(q => q.id === qId).text, answer: data.answer, risk: (data.answer === 'NÃO') ? questions.find(q => q.id === qId).risks[selectedStore.branchName] : 0, observation: data.observation || '', imageUrl: data.imageUrl || '' })); const evaluationData = { id: evaluationId, status, evaluatorEmail: currentUser.email, mallName: allMalls.find(m => m.id == mallId).name, storeId: storeId, storeName: selectedStore.name, storeBranch: selectedStore.branchName, monthYear, answers: answersData, }; const { error } = await supa.from('evaluations').upsert(evaluationData); if (error) { console.error("Erro ao salvar no Supabase:", error); displayStatusMessage('Falha ao salvar. Tente novamente.', 'error', true); } else { const successMessage = status === 'completed' ? 'Avaliação salva com sucesso!' : 'Progresso salvo!'; displayStatusMessage(successMessage, 'success', false); checklistScreen.classList.add('hidden'); selectionScreen.classList.add('hidden'); resultScreen.classList.remove('hidden'); } finalButton.disabled = false; finalButton.textContent = originalText; }
+    async function handleFileUpload(event) { const file = event.target.files[0]; const { questionId } = event.target.dataset; if (!file || !questionId) return; const feedbackEl = document.getElementById(`upload-feedback-${questionId}`); const storeId = storeSelect.value; const fileName = `${storeId}/${questionId}-${Date.now()}`; feedbackEl.textContent = 'Enviando...'; saveButton.disabled = true; pauseButton.disabled = true; const { error } = await supa.storage.from('photos').upload(fileName, file); if (error) { console.error("Supabase upload failed:", error); feedbackEl.textContent = 'Erro no upload.'; feedbackEl.style.color = '#ef4444'; } else { const { data } = supa.storage.from('photos').getPublicUrl(fileName); if (currentAnswers[questionId]) { currentAnswers[questionId].imageUrl = data.publicUrl; } feedbackEl.innerHTML = `<a href="${data.publicUrl}" target="_blank" class="text-blue-400 hover:underline">Imagem enviada!</a>`; } const answeredCount = Object.keys(currentAnswers).length; pauseButton.disabled = answeredCount === 0; saveButton.disabled = answeredCount !== relevantQuestions.length; }
+    
+    // --- NAVEGAÇÃO E LÓGICA DO APP ---
+    function navigateTo(pageName){ [pageHome, pageResults, pageProfile, pagePlaceholder2, pageAudit].forEach(p => p.classList.add('hidden')); [navHome, navResults, navPlaceholder2, navAudit].forEach(b => { b.classList.remove('nav-active'); b.classList.add('nav-inactive'); }); navProfile.classList.remove('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-gray-800'); let targetPage, targetNav; switch(pageName) { case 'home': targetPage = pageHome; targetNav = navHome; break; case 'results': targetPage = pageResults; targetNav = navResults; populateResultsFilter(); break; case 'profile': targetPage = pageProfile; targetNav = navProfile; break; case 'audit': targetPage = pageAudit; targetNav = navAudit; populateAuditFilter(); break; default: targetPage = pageHome; targetNav = navHome; } targetPage.classList.remove('hidden'); if (targetNav) { if (pageName === 'profile') targetNav.classList.add('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-gray-800'); else { targetNav.classList.remove('nav-inactive'); targetNav.classList.add('nav-active'); } } }
+    function populateAuditFilter() { auditMallSelect.innerHTML = '<option value="" disabled selected>-- Selecione um Shopping --</option>'; allMalls.forEach(mall => auditMallSelect.add(new Option(mall.name, mall.id))); auditSelectionScreen.classList.remove('hidden'); auditDetailsScreen.classList.add('hidden'); auditListContainer.innerHTML = '<p class="text-center text-gray-500">Selecione um shopping para ver as avaliações.</p>'; }
+    async function loadAuditList(mallId) { if (!mallId) return; auditListContainer.innerHTML = '<p class="text-center text-gray-400">Carregando avaliações...</p>'; const { data: evaluations, error } = await supa.from('evaluations').select('*').eq('mallName', allMalls.find(m => m.id == mallId).name).eq('status', 'completed').order('created_at', { ascending: false }); if (error || !evaluations || evaluations.length === 0) { auditListContainer.innerHTML = '<p class="text-center text-gray-500">Nenhuma avaliação concluída encontrada.</p>'; return; } auditListContainer.innerHTML = ''; evaluations.forEach(evaluation => { const evalDate = new Date(evaluation.created_at).toLocaleDateString('pt-BR'); const evalCard = document.createElement('div'); evalCard.className = 'p-4 bg-gray-700/50 rounded-lg hover:bg-gray-600 cursor-pointer transition-colors'; evalCard.innerHTML = `<h3 class="font-semibold text-white">${evaluation.storeName}</h3><p class="text-sm text-gray-400">Ramo: ${evaluation.storeBranch}</p><p class="text-sm text-gray-400">Data: ${evalDate}</p>`; evalCard.addEventListener('click', () => renderAuditDetails(evaluation)); auditListContainer.appendChild(evalCard); }); }
+    function renderAuditDetails(evaluation) { auditDetailsTitle.textContent = `Detalhes: ${evaluation.storeName}`; auditDetailsContent.innerHTML = ''; const nonConformities = evaluation.answers.filter(ans => ans.answer === 'NÃO'); if (nonConformities.length === 0) { auditDetailsContent.innerHTML = '<p class="text-center text-gray-400">Ótimo trabalho! Nenhuma não conformidade encontrada.</p>'; } else { nonConformities.forEach(item => { const detailCard = document.createElement('div'); detailCard.className = 'p-3 border border-gray-700 rounded-lg'; let imageHTML = item.imageUrl ? `<div class="mt-2"><img src="${item.imageUrl}" alt="Foto da auditoria" class="max-w-full h-auto rounded-lg border border-gray-600"></div>` : ''; detailCard.innerHTML = `<p class="font-semibold text-gray-300">${item.questionText}</p><p class="mt-1 text-sm text-yellow-300 bg-yellow-900/50 p-2 rounded-md"><strong class="font-bold">Observação:</strong> ${item.observation || 'Nenhuma.'}</p>${imageHTML}`; auditDetailsContent.appendChild(detailCard); }); } auditSelectionScreen.classList.add('hidden'); auditDetailsScreen.classList.remove('hidden'); }
+    async function handleStoreSelection() { const storeId = storeSelect.value; checklistScreen.classList.add('hidden'); resultScreen.classList.add('hidden'); if (!storeId) return; const selectedStore = currentMallStores.find(s => s.id == storeId); if (!selectedStore) return; const monthYear = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`; const evaluationId = `${storeId}_${monthYear}`; displayStatusMessage('Verificando...', 'loading', true); const { data } = await supa.from('evaluations').select('*').eq('id', evaluationId).single(); relevantQuestions = questions.filter(q => q.risks[selectedStore.branchName] !== undefined); resultScreen.classList.add('hidden'); statusMessage.classList.add('hidden'); if (data && data.status === 'in_progress') { renderChecklist(selectedStore, data.answers); } else { renderChecklist(selectedStore); } }
+    function populateMalls() { mallSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Shopping --</option>'; allMalls.forEach(mall => mallSelect.add(new Option(mall.name, mall.id))); }
+    function populateResultsFilter() { resultsMallSelect.innerHTML = '<option value="" disabled selected>-- Selecione um Shopping --</option>'; allMalls.forEach(mall => resultsMallSelect.add(new Option(mall.name, mall.id))); resultsContent.classList.add('hidden'); resultsPlaceholder.classList.remove('hidden');}
+    function populateBranches() { branchSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Tipo --</option>'; storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>'; branchSelect.disabled = true; storeSelect.disabled = true; const uniqueBranches = [...new Set(currentMallStores.map(store => store.branchName))]; uniqueBranches.sort().forEach(branch => branchSelect.add(new Option(branch, branch))); branchSelect.disabled = false;}
+    async function populateStores(branch) { storeSelect.innerHTML = '<option value="" disabled selected>-- Carregando Lojas... --</option>'; storeSelect.disabled = true; if (!branch) return; const monthYear = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`; const { data: evaluations } = await supa.from('evaluations').select('storeId, status').eq('mallName', allMalls.find(m=>m.id==mallSelect.value).name).eq('monthYear', monthYear); const evaluationsStatus = (evaluations || []).reduce((map, eval) => { map[eval.storeId] = eval.status; return map; }, {}); storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>'; const filteredStores = currentMallStores.filter(store => store.branchName === branch); filteredStores.sort((a,b) => a.name.localeCompare(b.name)).forEach(store => { const status = evaluationsStatus[store.id]; let storeName = store.name, isDisabled = false; if (status === 'completed') { storeName += ' (✓ Concluído)'; isDisabled = true; } else if (status === 'in_progress') { storeName += ' (⏸️ Em Andamento)'; } const option = new Option(storeName, store.id); option.disabled = isDisabled; storeSelect.add(option); }); storeSelect.disabled = false; }
+    
+    // =========== ATUALIZAÇÃO: RENDERCHECKLIST COM BOTÃO DE CÂMERA ===========
+    function renderChecklist(selectedStore, savedAnswers = []) {
+        questionsContainer.innerHTML = ''; currentAnswers = {}; saveButton.disabled = true; pauseButton.disabled = true; checklistTitle.textContent = `Questionário: ${selectedStore.name}`;
+        const savedAnswersMap = savedAnswers.reduce((map, ans) => { map[ans.questionId] = { answer: ans.answer, observation: ans.observation || '', imageUrl: ans.imageUrl || '' }; return map; }, {});
+        relevantQuestions.forEach(q => {
+            const questionEl = document.createElement('div');
+            questionEl.className = 'p-4 border border-gray-700 rounded-lg fade-in';
+            const riskValue = q.risks[selectedStore.branchName];
+            // HTML ATUALIZADO com botões separados para Arquivo e Câmera
+            questionEl.innerHTML = `<p class="font-medium text-gray-200">${q.text}</p><div class="flex items-center space-x-3 mt-3"><button data-question-id="${q.id}" data-answer="SIM" class="btn-inactive flex-1 py-2 px-4 border rounded-md">SIM</button><button data-question-id="${q.id}" data-answer="NÃO" class="btn-inactive flex-1 py-2 px-4 border rounded-md">NÃO</button></div><div id="risk-${q.id}" class="hidden mt-2 p-2 bg-red-900/50 text-red-300 font-semibold rounded-md text-sm">Risco: ${riskValue}</div><div id="details-${q.id}" class="hidden mt-4 space-y-3 border-t border-gray-700 pt-3"><div><label for="obs-${q.id}" class="block text-sm font-medium text-gray-400 mb-1">Observação:</label><textarea id="obs-${q.id}" data-question-id="${q.id}" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-lg text-white" rows="2"></textarea></div><div><label class="block text-sm font-medium text-gray-400 mb-1">Anexar Foto:</label><div class="flex items-center space-x-2"><button id="upload-btn-${q.id}" class="flex-grow bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">Escolher Arquivo</button><button id="camera-btn-${q.id}" class="p-2 bg-gray-600 hover:bg-gray-500 rounded-lg"><svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></button></div><input type="file" id="photo-${q.id}" data-question-id="${q.id}" class="hidden" accept="image/*"><div id="upload-feedback-${q.id}" class="text-xs mt-2 text-gray-400"></div></div></div>`;
+            questionsContainer.appendChild(questionEl);
             
-            try {
-                const q = query(collection(db, 'evaluations'), where('mallId', '==', mallSelect.value), where('monthYear', '==', monthYear));
-                const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => {
-                    evaluationsStatus[doc.data().storeId] = doc.data().status;
-                });
-            } catch (error) {
-                console.error("Erro ao buscar status das avaliações:", error);
-            }
+            // ATUALIZAÇÃO: Novos event listeners
+            questionEl.querySelector(`#obs-${q.id}`).addEventListener('input', handleObservationInput);
+            questionEl.querySelector(`#photo-${q.id}`).addEventListener('change', handleFileUpload);
+            questionEl.querySelector(`#upload-btn-${q.id}`).addEventListener('click', () => triggerFileInput(q.id, false));
+            questionEl.querySelector(`#camera-btn-${q.id}`).addEventListener('click', () => triggerFileInput(q.id, true));
 
-            storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>';
-            const filteredStores = currentMallStores.filter(store => store.branchName === branch);
-            filteredStores.sort((a,b) => a.name.localeCompare(b.name)).forEach(store => {
-                const status = evaluationsStatus[store.id];
-                let storeName = store.name;
-                let isDisabled = false;
-
-                if (status === 'completed') {
-                    storeName += ' (✓ Concluído)';
-                    isDisabled = true;
-                } else if (status === 'in_progress') {
-                    storeName += ' (⏸️ Em Andamento)';
-                }
-                
-                const option = new Option(storeName, store.id);
-                option.disabled = isDisabled;
-                storeSelect.add(option);
-            });
-            storeSelect.disabled = false;
+            const savedData = savedAnswersMap[q.id]; if (savedData) { currentAnswers[q.id] = { answer: savedData.answer, observation: savedData.observation, imageUrl: savedData.imageUrl }; const button = questionEl.querySelector(`button[data-answer="${savedData.answer}"]`); button.classList.add('btn-active'); button.classList.remove('btn-inactive'); questionEl.querySelector(`#obs-${q.id}`).value = savedData.observation; if (savedData.imageUrl) { questionEl.querySelector(`#upload-feedback-${q.id}`).innerHTML = `<a href="${savedData.imageUrl}" target="_blank" class="text-blue-400 hover:underline">Ver imagem salva</a>`; } if (savedData.answer === 'NÃO') { questionEl.querySelector(`#risk-${q.id}`).classList.remove('hidden'); questionEl.querySelector(`#details-${q.id}`).classList.remove('hidden'); } }
+        });
+        const answeredCount = Object.keys(currentAnswers).length; pauseButton.disabled = answeredCount === 0; saveButton.disabled = answeredCount !== relevantQuestions.length; checklistScreen.classList.remove('hidden'); checklistScreen.classList.add('fade-in');
+    }
+    // =========== NOVA FUNÇÃO PARA ACIONAR O INPUT DE ARQUIVO ===========
+    function triggerFileInput(questionId, useCamera) {
+        const fileInput = document.getElementById(`photo-${questionId}`);
+        if (useCamera) {
+            fileInput.setAttribute('capture', 'environment');
+        } else {
+            fileInput.removeAttribute('capture');
         }
+        fileInput.click();
+    }
+    // =================================================================
 
-        // --- NOVA FUNCIONALIDADE --- : Lógica para carregar avaliações pausadas
-        async function handleStoreSelection() {
-            const storeId = storeSelect.value;
-            checklistScreen.classList.add('hidden');
-            resultScreen.classList.add('hidden');
-            if (!storeId || !db) return;
+    function handleAnswerSelection(event) { const button = event.target.closest('button'); if (!button || !button.dataset.questionId) return; const { questionId, answer } = button.dataset; if (!currentAnswers[questionId]) { currentAnswers[questionId] = { answer: '', observation: '', imageUrl: '' }; } currentAnswers[questionId].answer = answer; document.querySelectorAll(`button[data-question-id="${questionId}"]`).forEach(btn => { btn.classList.toggle('btn-active', btn.dataset.answer === answer); btn.classList.toggle('btn-inactive', btn.dataset.answer !== answer); }); const riskEl = document.getElementById(`risk-${questionId}`), detailsEl = document.getElementById(`details-${questionId}`); if (answer === 'NÃO') { riskEl.classList.remove('hidden'); detailsEl.classList.remove('hidden'); } else { riskEl.classList.add('hidden'); detailsEl.classList.add('hidden'); currentAnswers[questionId].observation = ''; currentAnswers[questionId].imageUrl = ''; document.getElementById(`obs-${questionId}`).value = ''; } const answeredCount = Object.keys(currentAnswers).length; pauseButton.disabled = answeredCount === 0; saveButton.disabled = answeredCount !== relevantQuestions.length; }
+    function handleObservationInput(event) { const { questionId } = event.target.dataset; if (currentAnswers[questionId]) { currentAnswers[questionId].observation = event.target.value; } }
+    function displayStatusMessage(message, type, showOnTop) { statusMessage.textContent = message; statusMessage.className = 'text-center p-4 rounded-lg fade-in border'; if (showOnTop) { selectionScreen.classList.add('hidden'); checklistScreen.classList.add('hidden'); resultScreen.classList.remove('hidden'); newEvaluationButton.classList.toggle('hidden', type === 'loading'); } else { newEvaluationButton.classList.remove('hidden'); } switch (type) { case 'success': statusMessage.classList.add('bg-green-900/50', 'text-green-300', 'border-green-500/30'); break; case 'error': statusMessage.classList.add('bg-red-900/50', 'text-red-300', 'border-red-500/30'); break; case 'info': statusMessage.classList.add('bg-blue-900/50', 'text-blue-300', 'border-blue-500/30'); break; case 'loading': statusMessage.classList.add('bg-yellow-900/50', 'text-yellow-300', 'border-yellow-500/30'); break; } statusMessage.classList.remove('hidden'); }
+    async function loadResults(mallId) { if (!mallId) { resultsContent.classList.add('hidden'); resultsPlaceholder.classList.remove('hidden'); resultsPlaceholder.textContent = 'Selecione um shopping.'; return; } resultsPlaceholder.textContent = 'Carregando...'; resultsContent.classList.add('hidden'); resultsPlaceholder.classList.remove('hidden'); const {data: evaluations, error} = await supa.from('evaluations').select('*').eq('mallName', allMalls.find(m=>m.id==mallId).name); if (error || !evaluations || evaluations.length === 0) { resultsPlaceholder.textContent = 'Nenhuma avaliação encontrada.'; return; } renderRiskChart(evaluations); renderResultsTable(evaluations); resultsContent.classList.remove('hidden'); resultsPlaceholder.classList.add('hidden'); }
+    function renderRiskChart(evaluations) { const riskCounts = {}; evaluations.forEach(evalData => { const maxRisk = evalData.answers.reduce((max, ans) => Math.max(max, ans.risk), 0); riskCounts[maxRisk] = (riskCounts[maxRisk] || 0) + 1; }); const chartLabels = Object.keys(riskCounts).sort((a,b) => a-b).map(risk => `Risco ${risk}`); const chartData = Object.keys(riskCounts).sort((a,b) => a-b).map(risk => riskCounts[risk]); const ctx = document.getElementById('risk-chart').getContext('2d'); if (riskChart) { riskChart.destroy(); } riskChart = new Chart(ctx, { type: 'pie', data: { labels: chartLabels, datasets: [{ label: 'Lojas por Nível de Risco', data: chartData, backgroundColor: [ 'rgba(75, 192, 192, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(255, 206, 86, 0.7)', 'rgba(255, 159, 64, 0.7)', 'rgba(255, 99, 132, 0.7)', 'rgba(153, 102, 255, 0.7)' ], borderColor: '#1f2937', borderWidth: 2 }] }, options: { responsive: true, plugins: { legend: { position: 'top', labels: { color: '#d1d5db', font: { size: 14 } } }, title: { display: true, text: 'Distribuição de Lojas por Risco Máximo', color: '#e5e7eb', font: { size: 16 } } } } }); }
+    function renderResultsTable(evaluations) { let tableHTML = `<div class="overflow-x-auto"><table class="w-full text-sm text-left text-gray-400"><thead class="text-xs text-gray-300 uppercase bg-gray-700"><tr><th scope="col" class="px-6 py-3">Nome da Loja</th><th scope="col" class="px-6 py-3">Ramo</th><th scope="col" class="px-6 py-3 text-center">Risco Máximo</th></tr></thead><tbody>`; evaluations.forEach(evalData => { const maxRisk = evalData.answers.reduce((max, ans) => Math.max(max, ans.risk), 0); tableHTML += `<tr class="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"><th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">${evalData.storeName}</th><td class="px-6 py-4">${evalData.storeBranch}</td><td class="px-6 py-4 text-center font-bold ${maxRisk > 0 ? 'text-red-400' : 'text-green-400'}">${maxRisk}</td></tr>`; }); tableHTML += `</tbody></table></div>`; tableContainer.innerHTML = tableHTML; }
+    function resetApp() { populateMalls(); resultScreen.classList.add('hidden'); checklistScreen.classList.add('hidden'); selectionScreen.classList.remove('hidden'); selectionScreen.classList.add('fade-in'); mallSelect.value = ''; branchSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Tipo --</option>'; branchSelect.disabled = true; storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>'; storeSelect.disabled = true; currentAnswers = {}; relevantQuestions = []; currentMallStores = []; navigateTo('home'); }
+    async function iniciarAplicativo() { allMalls = await fetchMallsFromDB(); resetApp(); populateResultsFilter(); }
 
-            const selectedStore = currentMallStores.find(s => s.id === storeId);
-            if (!selectedStore) return;
+    // --- EVENT LISTENERS ---
+    mallSelect.addEventListener('change', async () => { const mallId = mallSelect.value; branchSelect.innerHTML = '<option value="" disabled selected>-- Carregando Tipos... --</option>'; branchSelect.disabled = true; storeSelect.disabled = true; if (!mallId) return; currentMallStores = await fetchStoresFromDB(mallId); populateBranches(); });
+    branchSelect.addEventListener('change', () => populateStores(branchSelect.value));
+    storeSelect.addEventListener('change', handleStoreSelection);
+    questionsContainer.addEventListener('click', handleAnswerSelection);
+    saveButton.addEventListener('click', () => saveOrPauseEvaluation('completed'));
+    pauseButton.addEventListener('click', () => saveOrPauseEvaluation('in_progress'));
+    newEvaluationButton.addEventListener('click', resetApp);
+    navHome.addEventListener('click', () => navigateTo('home'));
+    navResults.addEventListener('click', () => navigateTo('results'));
+    navProfile.addEventListener('click', () => navigateTo('profile'));
+    resultsMallSelect.addEventListener('change', (e) => loadResults(e.target.value));
+    navAudit.addEventListener('click', () => navigateTo('audit'));
+    auditMallSelect.addEventListener('change', (e) => loadAuditList(e.target.value));
+    auditBackButton.addEventListener('click', () => { auditDetailsScreen.classList.add('hidden'); auditSelectionScreen.classList.remove('hidden'); });
+</script>
 
-            const now = new Date();
-            const monthYear = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-            const evaluationId = `${storeId}_${monthYear}`;
-            
-            displayStatusMessage('Verificando...', 'loading', true);
-
-            try {
-                const docRef = doc(db, 'evaluations', evaluationId);
-                const docSnap = await getDoc(docRef);
-
-                relevantQuestions = questions.filter(q => q.risks[selectedStore.branchName] !== undefined);
-                resultScreen.classList.add('hidden');
-                statusMessage.classList.add('hidden');
-
-                if (docSnap.exists() && docSnap.data().status === 'in_progress') {
-                    // Carrega o checklist com as respostas salvas
-                    renderChecklist(selectedStore, docSnap.data().answers);
-                } else {
-                    // Inicia um checklist novo
-                    renderChecklist(selectedStore);
-                }
-            } catch (error) {
-                console.error("Erro ao verificar avaliação:", error);
-                displayStatusMessage('Erro ao consultar o banco de dados.', 'error', true);
-            }
-        }
-        
-        // --- NOVA FUNCIONALIDADE --- : Parâmetro para respostas salvas
-        function renderChecklist(selectedStore, savedAnswers = []) {
-            questionsContainer.innerHTML = '';
-            currentAnswers = {};
-            saveButton.disabled = true;
-            pauseButton.disabled = true;
-            checklistTitle.textContent = `Questionário: ${selectedStore.name}`;
-
-            // Transforma o array de respostas salvas em um mapa para acesso rápido
-            const savedAnswersMap = savedAnswers.reduce((map, ans) => {
-                map[ans.questionId] = ans.answer;
-                return map;
-            }, {});
-
-            relevantQuestions.forEach(q => {
-                const questionEl = document.createElement('div');
-                questionEl.className = 'p-4 border border-gray-700 rounded-lg fade-in';
-                const riskValue = q.risks[selectedStore.branchName];
-                questionEl.innerHTML = `<p class="font-medium text-gray-200">${q.text}</p><div class="flex items-center space-x-3 mt-3"><button data-question-id="${q.id}" data-answer="SIM" class="btn-inactive flex-1 py-2 px-4 border rounded-md">SIM</button><button data-question-id="${q.id}" data-answer="NÃO" class="btn-inactive flex-1 py-2 px-4 border rounded-md">NÃO</button></div><div id="risk-${q.id}" class="hidden mt-2 p-2 bg-red-900/50 text-red-300 font-semibold rounded-md text-sm">Risco: ${riskValue}</div>`;
-                questionsContainer.appendChild(questionEl);
-
-                // Se houver resposta salva, preenche o formulário
-                const savedAnswer = savedAnswersMap[q.id];
-                if (savedAnswer) {
-                    currentAnswers[q.id] = savedAnswer;
-                    const button = questionEl.querySelector(`button[data-answer="${savedAnswer}"]`);
-                    button.classList.add('btn-active');
-                    button.classList.remove('btn-inactive');
-                    if (savedAnswer === 'NÃO') {
-                        questionEl.querySelector(`#risk-${q.id}`).classList.remove('hidden');
-                    }
-                }
-            });
-            
-            // Re-avalia o estado dos botões após carregar as respostas
-            const answeredCount = Object.keys(currentAnswers).length;
-            pauseButton.disabled = answeredCount === 0;
-            saveButton.disabled = answeredCount !== relevantQuestions.length;
-
-            checklistScreen.classList.remove('hidden');
-            checklistScreen.classList.add('fade-in');
-        }
-
-        // --- NOVA FUNCIONALIDADE --- : Ativa o botão de pausar
-        function handleAnswerSelection(event) {
-            const button = event.target.closest('button');
-            if (!button || !button.dataset.questionId) return;
-            const { questionId, answer } = button.dataset;
-            currentAnswers[questionId] = answer;
-            document.querySelectorAll(`button[data-question-id="${questionId}"]`).forEach(btn => {
-                btn.classList.toggle('btn-active', btn.dataset.answer === answer);
-                btn.classList.toggle('btn-inactive', btn.dataset.answer !== answer);
-            });
-            document.getElementById(`risk-${questionId}`).classList.toggle('hidden', answer !== 'NÃO');
-            
-            const answeredCount = Object.keys(currentAnswers).length;
-            pauseButton.disabled = answeredCount === 0;
-            saveButton.disabled = answeredCount !== relevantQuestions.length;
-        }
-        
-        // --- NOVA FUNCIONALIDADE --- : Função unificada para Salvar e Pausar
-        async function saveOrPauseEvaluation(status) {
-            if (Object.keys(currentAnswers).length === 0) return;
-
-            const finalButton = (status === 'completed') ? saveButton : pauseButton;
-            const originalText = finalButton.textContent;
-            finalButton.disabled = true;
-            finalButton.textContent = 'Salvando...';
-
-            const storeId = storeSelect.value;
-            const mallId = mallSelect.value;
-            const selectedStore = currentMallStores.find(s => s.id === storeId);
-            if (!selectedStore) return;
-
-            const now = new Date();
-            const monthYear = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-            const evaluationId = `${storeId}_${monthYear}`;
-
-            const answersData = Object.entries(currentAnswers).map(([qId, ans]) => {
-                const question = questions.find(q => q.id === qId);
-                return {
-                    questionId: qId,
-                    questionText: question.text,
-                    answer: ans,
-                    risk: (ans === 'NÃO') ? question.risks[selectedStore.branchName] : 0,
-                }
-            });
-
-            const evaluationData = {
-                status, // "completed" ou "in_progress"
-                evaluatorId: currentUser.uid,
-                evaluatorEmail: currentUser.email,
-                mallId,
-                mallName: allMalls.find(m => m.id === mallId).name,
-                storeId,
-                storeName: selectedStore.name,
-                storeBranch: selectedStore.branchName,
-                monthYear,
-                createdAt: serverTimestamp(),
-                answers: answersData,
-            };
-
-            try {
-                await setDoc(doc(db, 'evaluations', evaluationId), evaluationData, { merge: true });
-                const successMessage = status === 'completed' ? 'Avaliação salva com sucesso!' : 'Progresso salvo!';
-                displayStatusMessage(successMessage, 'success', false);
-                checklistScreen.classList.add('hidden');
-                selectionScreen.classList.add('hidden');
-                resultScreen.classList.remove('hidden');
-            } catch (error) {
-                console.error("Erro ao salvar:", error);
-                displayStatusMessage('Falha ao salvar. Tente novamente.', 'error', true);
-            } finally {
-                finalButton.disabled = false;
-                finalButton.textContent = originalText;
-            }
-        }
-        
-        function displayStatusMessage(message, type, showOnTop) { statusMessage.textContent = message; statusMessage.className = 'text-center p-4 rounded-lg fade-in border'; if (showOnTop) { selectionScreen.classList.add('hidden'); checklistScreen.classList.add('hidden'); resultScreen.classList.remove('hidden'); newEvaluationButton.classList.toggle('hidden', type === 'loading'); } else { newEvaluationButton.classList.remove('hidden'); } switch (type) { case 'success': statusMessage.classList.add('bg-green-900/50', 'text-green-300', 'border-green-500/30'); break; case 'error': statusMessage.classList.add('bg-red-900/50', 'text-red-300', 'border-red-500/30'); break; case 'info': statusMessage.classList.add('bg-blue-900/50', 'text-blue-300', 'border-blue-500/30'); break; case 'loading': statusMessage.classList.add('bg-yellow-900/50', 'text-yellow-300', 'border-yellow-500/30'); break; } statusMessage.classList.remove('hidden'); }
-        async function loadResults(mallId) { if (!db || !mallId) { resultsContent.classList.add('hidden'); resultsPlaceholder.classList.remove('hidden'); resultsPlaceholder.textContent = 'Selecione um shopping para ver os resultados.'; return; } resultsPlaceholder.textContent = 'Carregando avaliações...'; resultsContent.classList.add('hidden'); resultsPlaceholder.classList.remove('hidden'); try { const q = query(collection(db, 'evaluations'), where('mallId', '==', mallId)); const querySnapshot = await getDocs(q); if (querySnapshot.empty) { resultsPlaceholder.textContent = 'Nenhuma avaliação encontrada para este shopping.'; return; } let evaluations = querySnapshot.docs.map(doc => doc.data()); evaluations.sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0)); renderRiskChart(evaluations); renderResultsTable(evaluations); resultsContent.classList.remove('hidden'); resultsPlaceholder.classList.add('hidden'); } catch(error) { console.error("Erro ao carregar resultados:", error); resultsPlaceholder.textContent = 'Erro ao carregar os dados. Tente novamente mais tarde.'; } }
-        function renderRiskChart(evaluations) { const riskCounts = {}; evaluations.forEach(evalData => { const maxRisk = evalData.answers.reduce((max, ans) => Math.max(max, ans.risk), 0); riskCounts[maxRisk] = (riskCounts[maxRisk] || 0) + 1; }); const chartLabels = Object.keys(riskCounts).sort((a,b) => a-b).map(risk => `Risco ${risk}`); const chartData = Object.keys(riskCounts).sort((a,b) => a-b).map(risk => riskCounts[risk]); const ctx = document.getElementById('risk-chart').getContext('2d'); if (riskChart) { riskChart.destroy(); } riskChart = new Chart(ctx, { type: 'pie', data: { labels: chartLabels, datasets: [{ label: 'Lojas por Nível de Risco', data: chartData, backgroundColor: [ 'rgba(75, 192, 192, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(255, 206, 86, 0.7)', 'rgba(255, 159, 64, 0.7)', 'rgba(255, 99, 132, 0.7)', 'rgba(153, 102, 255, 0.7)' ], borderColor: '#1f2937', borderWidth: 2 }] }, options: { responsive: true, plugins: { legend: { position: 'top', labels: { color: '#d1d5db', font: { size: 14 } } }, title: { display: true, text: 'Distribuição de Lojas por Risco Máximo', color: '#e5e7eb', font: { size: 16 } } } } }); }
-        function renderResultsTable(evaluations) { if (evaluations.length === 0) { tableContainer.innerHTML = ''; return; } let tableHTML = `<div class="overflow-x-auto"><table class="w-full text-sm text-left text-gray-400"><thead class="text-xs text-gray-300 uppercase bg-gray-700"><tr><th scope="col" class="px-6 py-3">Nome da Loja</th><th scope="col" class="px-6 py-3">Ramo</th><th scope="col" class="px-6 py-3 text-center">Risco Máximo</th></tr></thead><tbody>`; evaluations.forEach(evalData => { const maxRisk = evalData.answers.reduce((max, ans) => Math.max(max, ans.risk), 0); tableHTML += `<tr class="bg-gray-800 border-b border-gray-700 hover:bg-gray-600"><th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">${evalData.storeName}</th><td class="px-6 py-4">${evalData.storeBranch}</td><td class="px-6 py-4 text-center font-bold ${maxRisk > 0 ? 'text-red-400' : 'text-green-400'}">${maxRisk}</td></tr>`; }); tableHTML += `</tbody></table></div>`; tableContainer.innerHTML = tableHTML; }
-        
-        function resetApp() {
-            populateMalls();
-            resultScreen.classList.add('hidden');
-            checklistScreen.classList.add('hidden');
-            selectionScreen.classList.remove('hidden');
-            selectionScreen.classList.add('fade-in');
-            mallSelect.value = '';
-            branchSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Tipo --</option>';
-            branchSelect.disabled = true;
-            storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>';
-            storeSelect.disabled = true;
-            currentAnswers = {};
-            relevantQuestions = [];
-            currentMallStores = [];
-            navigateTo('home');
-        }
-        
-        async function iniciarAplicativo() {
-            allMalls = await fetchMallsFromDB();
-            resetApp(); 
-            populateResultsFilter(); 
-        }
-
-        // --- EVENT LISTENERS ---
-        if(auth) {
-            mallSelect.addEventListener('change', async () => {
-                const mallId = mallSelect.value;
-                branchSelect.innerHTML = '<option value="" disabled selected>-- Carregando Tipos... --</option>';
-                branchSelect.disabled = true;
-                storeSelect.disabled = true;
-                if (!mallId) return;
-                currentMallStores = await fetchStoresFromDB(mallId);
-                populateBranches();
-            });
-            branchSelect.addEventListener('change', () => populateStores(branchSelect.value));
-            storeSelect.addEventListener('change', handleStoreSelection);
-            questionsContainer.addEventListener('click', handleAnswerSelection);
-            
-            // --- NOVA FUNCIONALIDADE --- : Event Listeners para Salvar e Pausar
-            saveButton.addEventListener('click', () => saveOrPauseEvaluation('completed'));
-            pauseButton.addEventListener('click', () => saveOrPauseEvaluation('in_progress'));
-
-            newEvaluationButton.addEventListener('click', resetApp);
-            navHome.addEventListener('click', () => navigateTo('home'));
-            navResults.addEventListener('click', () => navigateTo('results'));
-            navProfile.addEventListener('click', () => navigateTo('profile'));
-            navPlaceholder1.addEventListener('click', () => navigateTo('placeholder1'));
-            navPlaceholder2.addEventListener('click', () => navigateTo('placeholder2'));
-            resultsMallSelect.addEventListener('change', (e) => loadResults(e.target.value));
-        }
-        
-    </script>
 </body>
 </html>
