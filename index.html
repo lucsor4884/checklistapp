@@ -178,11 +178,19 @@
                         <h1 class="text-2xl md:text-3xl font-bold text-white">Resultados das Avaliações</h1>
                         <p class="text-[#8E8E93] mt-1">Análise de risco por shopping.</p>
                     </div>
-                    <div>
-                        <label for="results-mall-select" class="block text-sm font-medium text-gray-300 mb-1">Filtrar por Shopping:</label>
-                        <select id="results-mall-select" required class="w-full p-3 bg-[#3A3A3C] border border-[#545458] rounded-lg text-white focus:ring-2 focus:ring-[#FF3B30] focus:border-[#FF3B30] transition">
-                            <option value="" disabled selected>-- Selecione um Shopping para analisar --</option>
-                        </select>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="results-mall-select" class="block text-sm font-medium text-gray-300 mb-1">Filtrar por Shopping:</label>
+                            <select id="results-mall-select" required class="w-full p-3 bg-[#3A3A3C] border border-[#545458] rounded-lg text-white focus:ring-2 focus:ring-[#FF3B30] focus:border-[#FF3B30] transition">
+                                <option value="" disabled selected>-- Selecione um Shopping para analisar --</option>
+                            </select>
+                        </div>
+                        <div class="border-t border-[#3A3A3C] pt-4">
+                             <button id="export-csv-button" class="w-full bg-[#007AFF] text-white font-bold py-3 px-4 rounded-lg hover:bg-[#0056b3] transition-colors flex items-center justify-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                <span>Exportar Todos os Dados (CSV)</span>
+                             </button>
+                        </div>
                     </div>
                     <div id="results-content" class="hidden space-y-6">
                         <div id="chart-container" class="p-4 bg-[#3A3A3C]/50 rounded-lg"><canvas id="risk-chart"></canvas></div>
@@ -283,7 +291,7 @@
     const mallSelect = document.getElementById('mall-select'), branchSelect = document.getElementById('branch-select'), storeSelect = document.getElementById('store-select'), selectionScreen = document.getElementById('selection-screen'), checklistScreen = document.getElementById('checklist-screen'), checklistTitle = document.getElementById('checklist-title'), questionsContainer = document.getElementById('questions-container'), saveButton = document.getElementById('save-button'), statusMessage = document.getElementById('status-message'), resultScreen = document.getElementById('result-screen'), newEvaluationButton = document.getElementById('new-evaluation-button'), pauseButton = document.getElementById('pause-button');
 
     // Elementos da Página de Resultados
-    const resultsMallSelect = document.getElementById('results-mall-select'), resultsContent = document.getElementById('results-content'), resultsPlaceholder = document.getElementById('results-placeholder'), tableContainer = document.getElementById('table-container');
+    const resultsMallSelect = document.getElementById('results-mall-select'), resultsContent = document.getElementById('results-content'), resultsPlaceholder = document.getElementById('results-placeholder'), tableContainer = document.getElementById('table-container'), exportCsvButton = document.getElementById('export-csv-button');
 
     // Elementos da Página de Auditoria
     const auditMallSelect = document.getElementById('audit-mall-select'), auditSelectionScreen = document.getElementById('audit-selection-screen'), auditListContainer = document.getElementById('audit-list-container'), auditDetailsScreen = document.getElementById('audit-details-screen'), auditDetailsTitle = document.getElementById('audit-details-title'), auditDetailsContent = document.getElementById('audit-details-content'), auditBackButton = document.getElementById('audit-back-button');
@@ -361,18 +369,10 @@
     function closeDrawer() { drawer.classList.remove('open'); drawerOverlay.classList.remove('open'); setTimeout(() => { drawerOverlay.classList.add('hidden'); }, 300); }
     function populateAuditFilter() { auditMallSelect.innerHTML = '<option value="" disabled selected>-- Selecione um Shopping --</option>'; allMalls.forEach(mall => auditMallSelect.add(new Option(mall.name, mall.id))); auditSelectionScreen.classList.remove('hidden'); auditDetailsScreen.classList.add('hidden'); auditListContainer.innerHTML = '<p class="text-center text-[#8E8E93]">Selecione um shopping para ver as avaliações.</p>'; }
     
-    // =======================================================
-    // ============= FUNÇÃO DE AUDITORIA ALTERADA ============
-    // =======================================================
     async function loadAuditList(mallId) {
         if (!mallId) return;
         auditListContainer.innerHTML = '<p class="text-center text-gray-400">Carregando avaliações...</p>';
-        const { data: evaluations, error } = await supa
-            .from('evaluations')
-            .select('*')
-            .eq('mallName', allMalls.find(m => m.id == mallId).name)
-            .eq('status', 'completed')
-            .order('created_at', { ascending: false });
+        const { data: evaluations, error } = await supa.from('evaluations').select('*').eq('mallName', allMalls.find(m => m.id == mallId).name).eq('status', 'completed').order('created_at', { ascending: false });
 
         if (error || !evaluations || evaluations.length === 0) {
             auditListContainer.innerHTML = '<p class="text-center text-[#8E8E93]">Nenhuma avaliação concluída encontrada.</p>';
@@ -381,21 +381,15 @@
 
         auditListContainer.innerHTML = '';
         evaluations.forEach(evaluation => {
-            // Lógica para determinar o status (risco) e contar observações
             const hasRisk = evaluation.answers.some(ans => ans.answer === 'NÃO');
             const observationCount = evaluation.answers.filter(ans => ans.observation && ans.observation.trim() !== '').length;
-
-            // Determinar classes e ícone com base no risco
             const iconBgColor = hasRisk ? 'bg-red-500/30' : 'bg-green-500/30';
             const iconTextColor = hasRisk ? 'text-red-400' : 'text-green-400';
             const iconSvg = hasRisk
                 ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>`
                 : `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
-
-            // Lógica para o texto do subtítulo (singular/plural)
             const subtitleText = `Contém ${observationCount} ${observationCount === 1 ? 'observação' : 'observações'}`;
 
-            // Criar o card com a nova estrutura
             const evalCard = document.createElement('div');
             evalCard.className = 'p-3 bg-[#3A3A3C]/60 rounded-lg hover:bg-[#3A3A3C] cursor-pointer transition-colors flex items-center space-x-4';
             evalCard.innerHTML = `
@@ -412,9 +406,6 @@
             auditListContainer.appendChild(evalCard);
         });
     }
-    // =======================================================
-    // ================= FIM DA ALTERAÇÃO ====================
-    // =======================================================
 
     function renderAuditDetails(evaluation) { auditDetailsTitle.textContent = `Detalhes: ${evaluation.storeName}`; auditDetailsContent.innerHTML = ''; const nonConformities = evaluation.answers.filter(ans => ans.answer === 'NÃO'); if (nonConformities.length === 0) { auditDetailsContent.innerHTML = '<p class="text-center text-[#8E8E93]">Ótimo trabalho! Nenhuma não conformidade encontrada.</p>'; } else { nonConformities.forEach(item => { const detailCard = document.createElement('div'); detailCard.className = 'p-3 border border-[#3A3A3C] rounded-lg'; let imageHTML = item.imageUrl ? `<div class="mt-2"><img src="${item.imageUrl}" alt="Foto da auditoria" class="max-w-full h-auto rounded-lg border border-[#545458]"></div>` : ''; detailCard.innerHTML = `<p class="font-semibold text-gray-300">${item.questionText}</p><p class="mt-1 text-sm text-[#FF9500] bg-[#FF9500]/20 p-2 rounded-md"><strong class="font-bold">Observação:</strong> ${item.observation || 'Nenhuma.'}</p>${imageHTML}`; auditDetailsContent.appendChild(detailCard); }); } auditSelectionScreen.classList.add('hidden'); auditDetailsScreen.classList.remove('hidden'); }
     async function handleStoreSelection() { const storeId = storeSelect.value; checklistScreen.classList.add('hidden'); resultScreen.classList.add('hidden'); if (!storeId) return; const selectedStore = currentMallStores.find(s => s.id == storeId); if (!selectedStore) return; const monthYear = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`; const evaluationId = `${storeId}_${monthYear}`; displayStatusMessage('Verificando...', 'loading', true); const { data } = await supa.from('evaluations').select('*').eq('id', evaluationId).single(); relevantQuestions = questions.filter(q => q.risks[selectedStore.branchName] !== undefined); resultScreen.classList.add('hidden'); statusMessage.classList.add('hidden'); if (data && data.status === 'in_progress') { renderChecklist(selectedStore, data.answers); } else { renderChecklist(selectedStore); } }
@@ -493,6 +484,90 @@
     }
 
     function renderResultsTable(evaluations) { let tableHTML = `<div class="overflow-x-auto"><table class="w-full text-sm text-left text-gray-400"><thead class="text-xs text-gray-300 uppercase bg-[#3A3A3C]"><tr><th scope="col" class="px-6 py-3">Nome da Loja</th><th scope="col" class="px-6 py-3">Ramo</th><th scope="col" class="px-6 py-3 text-center">Risco Máximo</th></tr></thead><tbody>`; evaluations.forEach(evalData => { const maxRisk = evalData.answers.reduce((max, ans) => Math.max(max, ans.risk || 0), 0); tableHTML += `<tr class="bg-[#2C2C2E] border-b border-[#3A3A3C] hover:bg-[#3A3A3C]"><th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">${evalData.storeName}</th><td class="px-6 py-4">${evalData.storeBranch}</td><td class="px-6 py-4 text-center font-bold ${maxRisk > 3 ? 'text-[#FF3B30]' : maxRisk > 1 ? 'text-[#FF9500]' : 'text-[#34C759]'}">${maxRisk}</td></tr>`; }); tableHTML += `</tbody></table></div>`; tableContainer.innerHTML = tableHTML; }
+    
+    // --- FUNÇÕES PARA EXPORTAÇÃO DE CSV ---
+    function escapeCsvCell(cellData) {
+        if (cellData === null || cellData === undefined) {
+            return '""';
+        }
+        const stringData = String(cellData);
+        if (stringData.includes('"') || stringData.includes(',') || stringData.includes('\n')) {
+            return `"${stringData.replace(/"/g, '""')}"`;
+        }
+        return `"${stringData}"`;
+    }
+
+    async function exportAllDataToCsv() {
+        exportCsvButton.disabled = true;
+        exportCsvButton.querySelector('span').textContent = 'Exportando...';
+
+        try {
+            const { data: evaluations, error } = await supa
+                .from('evaluations')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                throw error;
+            }
+
+            if (!evaluations || evaluations.length === 0) {
+                alert('Nenhuma avaliação encontrada para exportar.');
+                return;
+            }
+
+            const headers = [
+                'ID Avaliacao', 'Data Avaliacao', 'Shopping', 'ID Loja', 'Nome Loja', 'Ramo', 'Avaliador',
+                'ID Pergunta', 'Texto Pergunta', 'Resposta', 'Risco', 'Observacao', 'URL Imagem'
+            ];
+
+            let csvRows = [headers.join(',')];
+
+            evaluations.forEach(evaluation => {
+                if (evaluation.answers && Array.isArray(evaluation.answers)) {
+                    evaluation.answers.forEach(answer => {
+                        const row = [
+                            escapeCsvCell(evaluation.id),
+                            escapeCsvCell(new Date(evaluation.created_at).toLocaleString('pt-BR')),
+                            escapeCsvCell(evaluation.mallName),
+                            escapeCsvCell(evaluation.storeId),
+                            escapeCsvCell(evaluation.storeName),
+                            escapeCsvCell(evaluation.storeBranch),
+                            escapeCsvCell(evaluation.evaluatorEmail),
+                            escapeCsvCell(answer.questionId),
+                            escapeCsvCell(answer.questionText),
+                            escapeCsvCell(answer.answer),
+                            escapeCsvCell(answer.risk),
+                            escapeCsvCell(answer.observation),
+                            escapeCsvCell(answer.imageUrl)
+                        ];
+                        csvRows.push(row.join(','));
+                    });
+                }
+            });
+
+            const csvString = '\uFEFF' + csvRows.join('\n');
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            const date = new Date().toISOString().slice(0, 10);
+            link.setAttribute('download', `relatorio_completo_avaliacoes_${date}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+        } catch (err) {
+            console.error('Erro ao exportar dados para CSV:', err);
+            alert('Falha ao exportar os dados. Verifique o console para mais detalhes.');
+        } finally {
+            exportCsvButton.disabled = false;
+            exportCsvButton.querySelector('span').textContent = 'Exportar Todos os Dados (CSV)';
+        }
+    }
+
     function resetApp() { populateMalls(); resultScreen.classList.add('hidden'); checklistScreen.classList.add('hidden'); selectionScreen.classList.remove('hidden'); selectionScreen.classList.add('fade-in'); mallSelect.value = ''; branchSelect.innerHTML = '<option value="" disabled selected>-- Escolha um Tipo --</option>'; branchSelect.disabled = true; storeSelect.innerHTML = '<option value="" disabled selected>-- Escolha uma Loja --</option>'; storeSelect.disabled = true; currentAnswers = {}; relevantQuestions = []; currentMallStores = []; navigateTo('home'); }
     async function iniciarAplicativo() { allMalls = await fetchMallsFromDB(); resetApp(); populateResultsFilter(); }
 
@@ -516,6 +591,9 @@
     resultsMallSelect.addEventListener('change', (e) => loadResults(e.target.value));
     auditMallSelect.addEventListener('change', (e) => loadAuditList(e.target.value));
     auditBackButton.addEventListener('click', () => { auditDetailsScreen.classList.add('hidden'); auditSelectionScreen.classList.remove('hidden'); });
+    
+    // Event listener para o novo botão
+    exportCsvButton.addEventListener('click', exportAllDataToCsv);
 
 </script>
 
